@@ -1,8 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
-      "type": "main-product"
+      "type": "main-product",
+      "settings": {
+        "bundle_product_1": "calm-uplift",
+        "bundle_product_2": "head-ease",
+        "bundle_product_3": "post-recovery",
+        "bundle_product_4": "",
+        "bundle_discount_code": "",
+        "bundle_eyebrow": "Bundle and save",
+        "bundle_title": "Complete Collection",
+        "bundle_text": "Add all four Mineral Mist products to your cart and save 20% on the full collection.",
+        "bundle_button_label": "Add All 4 - Save 20%",
+        "bundle_note": "The bundle discount appears in cart or checkout when the offer is active."
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
