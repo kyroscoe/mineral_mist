@@ -3,6 +3,7 @@ const mobileNav = document.querySelector(".mobile-nav");
 const navLinks = document.querySelectorAll(".mobile-nav a");
 const scrollZoomMedia = document.querySelectorAll("[data-scroll-zoom]");
 const pageWatermark = document.querySelector(".page-watermark");
+const bundleForms = document.querySelectorAll("[data-bundle-form]");
 
 const closeMenu = () => {
   if (!menuButton || !mobileNav) return;
@@ -120,5 +121,65 @@ const initScrollingWatermark = () => {
   updateWatermark();
 };
 
+const initBundleForms = () => {
+  if (!bundleForms.length) return;
+
+  bundleForms.forEach((form) => {
+    const button = form.querySelector("[data-bundle-submit]");
+    const status = form.querySelector("[data-bundle-status]");
+    const variantInputs = form.querySelectorAll('input[name="items[][id]"]');
+
+    if (!button || !variantInputs.length) return;
+    const buttonLabel = button.textContent.trim();
+
+    button.addEventListener("click", async () => {
+      const variantIds = Array.from(variantInputs)
+        .map((input) => Number.parseInt(input.value, 10))
+        .filter(Number.isFinite);
+
+      if (variantIds.length !== 4) {
+        if (status) status.textContent = "This bundle needs all four products selected.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Adding...";
+      if (status) status.textContent = "Adding the complete collection to your cart.";
+
+      try {
+        const response = await fetch("/cart/add.js", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            items: variantIds.map((id) => ({
+              id,
+              quantity: 1,
+              properties: {
+                Bundle: "Complete Collection",
+              },
+            })),
+          }),
+        });
+
+        if (!response.ok) throw new Error("Bundle could not be added.");
+
+        const discountCode = form.dataset.discountCode;
+        const cartPath = "/cart";
+        window.location.href = discountCode
+          ? `/discount/${encodeURIComponent(discountCode)}?redirect=${encodeURIComponent(cartPath)}`
+          : cartPath;
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = buttonLabel;
+        if (status) status.textContent = "Something went wrong. Please try again.";
+      }
+    });
+  });
+};
+
 initScrollZoom();
 initScrollingWatermark();
+initBundleForms();

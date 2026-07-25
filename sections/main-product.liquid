@@ -62,6 +62,64 @@
           {% if product.selected_or_first_available_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
         </button>
       {% endform %}
+
+      {% assign bundle_product_1 = section.settings.bundle_product_1 %}
+      {% assign bundle_product_2 = section.settings.bundle_product_2 %}
+      {% assign bundle_product_3 = section.settings.bundle_product_3 %}
+      {% assign bundle_product_4 = section.settings.bundle_product_4 %}
+      {% assign bundle_variant_1 = bundle_product_1.selected_or_first_available_variant %}
+      {% assign bundle_variant_2 = bundle_product_2.selected_or_first_available_variant %}
+      {% assign bundle_variant_3 = bundle_product_3.selected_or_first_available_variant %}
+      {% assign bundle_variant_4 = bundle_product_4.selected_or_first_available_variant %}
+      {% assign bundle_ready = true %}
+      {% if bundle_product_1 == blank or bundle_product_2 == blank or bundle_product_3 == blank or bundle_product_4 == blank %}
+        {% assign bundle_ready = false %}
+      {% endif %}
+      {% unless bundle_variant_1.available and bundle_variant_2.available and bundle_variant_3.available and bundle_variant_4.available %}
+        {% assign bundle_ready = false %}
+      {% endunless %}
+
+      <div
+        class="bundle-offer"
+        data-bundle-form
+        {% if section.settings.bundle_discount_code != blank %}
+          data-discount-code="{{ section.settings.bundle_discount_code | escape }}"
+        {% endif %}
+      >
+        <p class="bundle-offer-kicker">{{ section.settings.bundle_eyebrow | escape }}</p>
+        <h2>{{ section.settings.bundle_title | escape }}</h2>
+        <p>{{ section.settings.bundle_text | escape }}</p>
+
+        <div class="bundle-products" aria-label="Bundle products">
+          {% if bundle_product_1 != blank %}
+            <span>{{ bundle_product_1.title | escape }}</span>
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_1.id }}">
+          {% endif %}
+          {% if bundle_product_2 != blank %}
+            <span>{{ bundle_product_2.title | escape }}</span>
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_2.id }}">
+          {% endif %}
+          {% if bundle_product_3 != blank %}
+            <span>{{ bundle_product_3.title | escape }}</span>
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_3.id }}">
+          {% endif %}
+          {% if bundle_product_4 != blank %}
+            <span>{{ bundle_product_4.title | escape }}</span>
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_4.id }}">
+          {% endif %}
+        </div>
+
+        <button class="button button-primary" type="button" data-bundle-submit {% unless bundle_ready %}disabled{% endunless %}>
+          {{ section.settings.bundle_button_label | escape }}
+        </button>
+        <p class="bundle-offer-note" data-bundle-status>
+          {% if bundle_ready %}
+            {{ section.settings.bundle_note | escape }}
+          {% else %}
+            Choose the four bundle products in this section's theme settings.
+          {% endif %}
+        </p>
+      </div>
     </div>
   </div>
 </section>
@@ -69,6 +127,18 @@
 {% schema %}
 {
   "name": "Main product",
-  "settings": []
+  "settings": [
+    { "type": "header", "content": "Complete collection bundle" },
+    { "type": "product", "id": "bundle_product_1", "label": "Bundle product 1" },
+    { "type": "product", "id": "bundle_product_2", "label": "Bundle product 2" },
+    { "type": "product", "id": "bundle_product_3", "label": "Bundle product 3" },
+    { "type": "product", "id": "bundle_product_4", "label": "Bundle product 4" },
+    { "type": "text", "id": "bundle_discount_code", "label": "Discount code", "info": "Optional. Create the code in Shopify Discounts first. Leave blank if using an automatic discount." },
+    { "type": "text", "id": "bundle_eyebrow", "label": "Eyebrow", "default": "Bundle and save" },
+    { "type": "text", "id": "bundle_title", "label": "Title", "default": "Complete Collection" },
+    { "type": "textarea", "id": "bundle_text", "label": "Text", "default": "Add all four Mineral Mist products to your cart and save 20% on the full collection." },
+    { "type": "text", "id": "bundle_button_label", "label": "Button label", "default": "Add All 4 - Save 20%" },
+    { "type": "textarea", "id": "bundle_note", "label": "Note", "default": "The bundle discount appears in cart or checkout when the offer is active." }
+  ]
 }
 {% endschema %}
