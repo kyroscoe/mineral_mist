@@ -1,0 +1,74 @@
+<section class="section product-page-section">
+  <div class="section-inner product-page-layout">
+    <div class="product-page-media">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | image_url: width: 900 }}"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          width="900"
+          height="900"
+          loading="eager"
+        >
+      {% else %}
+        <img
+          src="{{ 'pure-mineral-mist.jpg' | asset_url }}"
+          alt="{{ product.title | escape }}"
+          width="900"
+          height="900"
+          loading="eager"
+        >
+      {% endif %}
+    </div>
+    <div class="product-page-copy">
+      <p class="eyebrow">Mineral Mist</p>
+      <h1>{{ product.title | escape }}</h1>
+      <div class="product-page-price">
+        {% if product.price_varies %}
+          From {{ product.price_min | money }}
+        {% else %}
+          {{ product.price | money }}
+        {% endif %}
+      </div>
+      {% if product.description != blank %}
+        <div class="product-description rte">{{ product.description }}</div>
+      {% endif %}
+
+      {% form 'product', product, class: 'product-form' %}
+        {% unless product.has_only_default_variant %}
+          <label for="ProductSelect-{{ section.id }}">Option</label>
+          <select id="ProductSelect-{{ section.id }}" name="id">
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                {% unless variant.available %}disabled{% endunless %}
+                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+              >
+                {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+              </option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {% endunless %}
+
+        <label for="Quantity-{{ section.id }}">Quantity</label>
+        <input id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1">
+
+        <button
+          class="button button-primary"
+          type="submit"
+          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+        >
+          {% if product.selected_or_first_available_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+        </button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,78 @@
+<footer class="site-footer">
+  <div class="section-inner footer-layout">
+    <div class="footer-brand">
+      <img
+        src="{{ section.settings.logo | default: 'mineral-mist-logo-dark.jpg' | asset_url }}"
+        alt=""
+        width="58"
+        height="58"
+        loading="lazy"
+      >
+      <p>{{ section.settings.brand_name | escape }}</p>
+    </div>
+    <nav class="footer-columns" aria-label="Footer navigation">
+      <div>
+        <h2>Shop</h2>
+        <a href="{{ routes.root_url }}#products">All Products</a>
+        <a href="{{ routes.root_url }}#products">Pure Mineral Mist</a>
+        <a href="{{ routes.root_url }}#products">Head Ease</a>
+        <a href="{{ routes.root_url }}#products">Post Recovery</a>
+        <a href="{{ routes.root_url }}#products">Calm &amp; Uplift</a>
+      </div>
+      <div>
+        <h2>About</h2>
+        <a href="{{ routes.root_url }}#story">Our Story</a>
+        <a href="{{ routes.root_url }}#why-magnesium">Why Magnesium</a>
+        <a href="{{ routes.root_url }}#contact">Contact</a>
+      </div>
+      <div>
+        <h2>Help</h2>
+        <a href="{{ routes.root_url }}#faq">FAQ</a>
+        <a href="{{ routes.root_url }}#contact">Shipping</a>
+        <a href="{{ routes.root_url }}#contact">Returns</a>
+      </div>
+      <div>
+        <h2>Legal</h2>
+        <a href="{{ routes.root_url }}#contact">Privacy Policy</a>
+        <a href="{{ routes.root_url }}#contact">Terms</a>
+        <a href="{{ routes.root_url }}#contact">Refund Policy</a>
+      </div>
+    </nav>
+    <div class="footer-social" aria-label="Mineral Mist social links">
+      <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noreferrer">Facebook</a>
+      <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noreferrer">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Mineral Mist footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "Mineral Mist Co."
+    },
+    {
+      "type": "text",
+      "id": "logo",
+      "label": "Logo asset filename",
+      "default": "mineral-mist-logo-dark.jpg"
+    },
+    {
+      "type": "text",
+      "id": "facebook_url",
+      "label": "Facebook URL",
+      "default": "https://www.facebook.com/mineralmistco"
+    },
+    {
+      "type": "text",
+      "id": "tiktok_url",
+      "label": "TikTok URL",
+      "default": "https://www.tiktok.com/@mineralmistco"
+    }
+  ]
+}
+{% endschema %}

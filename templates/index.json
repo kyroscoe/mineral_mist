@@ -1,0 +1,216 @@
+{
+  "sections": {
+    "home": {
+      "type": "mineral-mist-home",
+      "blocks": {
+        "product_1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Pure Mineral Mist",
+            "fallback_image": "pure-mineral-mist.jpg",
+            "alt": "Pure Mineral Mist spray bottle and box",
+            "label": "Everyday magnesium",
+            "description": "Pure Dead Sea magnesium blended with essential oil in a clean daily spray for simple refresh moments.",
+            "fallback_price": "Price coming soon",
+            "size": "Size details coming soon"
+          }
+        },
+        "product_2": {
+          "type": "product_card",
+          "settings": {
+            "title": "Head Ease",
+            "fallback_image": "head-ease.jpg",
+            "alt": "Head Ease Mineral Mist spray bottle and box",
+            "label": "Peppermint blend",
+            "description": "Dead Sea magnesium blended with 100% pure peppermint essential oil for a crisp sensory reset.",
+            "fallback_price": "Price coming soon",
+            "size": "Size details coming soon"
+          }
+        },
+        "product_3": {
+          "type": "product_card",
+          "settings": {
+            "title": "Post Recovery",
+            "fallback_image": "post-recovery.jpg",
+            "alt": "Post Recovery Mineral Mist spray bottle and box",
+            "label": "After movement",
+            "description": "A mineral-forward spray with essential oils designed to fit into post-workout and end-of-day care routines.",
+            "fallback_price": "Price coming soon",
+            "size": "Size details coming soon"
+          }
+        },
+        "product_4": {
+          "type": "product_card",
+          "settings": {
+            "title": "Calm & Uplift",
+            "fallback_image": "calm-uplift.jpg",
+            "alt": "Calm and Uplift Mineral Mist spray bottle and box",
+            "label": "Rose water softness",
+            "description": "Dead Sea magnesium blended with essential oils in a soft floral mist for slower daily pauses.",
+            "fallback_price": "Price coming soon",
+            "size": "Size details coming soon"
+          }
+        },
+        "point_1": {
+          "type": "magnesium_point",
+          "settings": {
+            "title": "Sourced from the mineral-rich Dead Sea",
+            "text": "A distinctive mineral source gives Mineral Mist its simple, focused foundation."
+          }
+        },
+        "point_2": {
+          "type": "magnesium_point",
+          "settings": {
+            "title": "Made with 100% pure magnesium",
+            "text": "The core product message stays clear and uncomplicated across the full collection."
+          }
+        },
+        "point_3": {
+          "type": "magnesium_point",
+          "settings": {
+            "title": "Simple topical application",
+            "text": "A spray format makes it easy to add to morning, post-workout, or evening routines."
+          }
+        },
+        "routine_1": {
+          "type": "routine_card",
+          "settings": {
+            "title": "Morning Routine",
+            "icon": "sun",
+            "text": "Keep Mineral Mist nearby as a simple mineral-forward start to the day."
+          }
+        },
+        "routine_2": {
+          "type": "routine_card",
+          "settings": {
+            "title": "Post-Workout",
+            "icon": "move",
+            "text": "Add it to post-movement care when you want a straightforward topical step."
+          }
+        },
+        "routine_3": {
+          "type": "routine_card",
+          "settings": {
+            "title": "Evening Wind-Down",
+            "icon": "moon",
+            "text": "Use it as part of a calm, consistent routine before the day closes."
+          }
+        },
+        "routine_4": {
+          "type": "routine_card",
+          "settings": {
+            "title": "Everyday Wellness",
+            "icon": "drop",
+            "text": "A convenient spray designed to fit naturally into ordinary daily moments."
+          }
+        },
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Spray",
+            "text": "Apply according to the directions on your specific Mineral Mist product."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Massage",
+            "text": "Gently massage the product into skin as directed on the product label."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Make It a Routine",
+            "text": "Use according to the product directions and your personal routine."
+          }
+        },
+        "trust_1": {
+          "type": "trust_item",
+          "settings": {
+            "text": "100% Pure Magnesium"
+          }
+        },
+        "trust_2": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Sourced from the Dead Sea"
+          }
+        },
+        "trust_3": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Simple Topical Use"
+          }
+        },
+        "trust_4": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Carefully Made"
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What is Mineral Mist?",
+            "answer": "Mineral Mist is a small collection of magnesium spray mists designed for simple daily wellness routines."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Where does the magnesium come from?",
+            "answer": "The central Mineral Mist ingredient story is 100% pure magnesium from the Dead Sea."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I use Mineral Mist?",
+            "answer": "Use each product according to the directions on its label. Product-specific instructions should be confirmed before launch."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "Which product is right for me?",
+            "answer": "The collection includes Pure Mineral Mist, Head Ease, Post Recovery, and Calm & Uplift, each designed around a different everyday routine moment."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I find ingredient and safety information?",
+            "answer": "Ingredient and safety details should be reviewed on the product packaging or any client-approved product detail page once available."
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "point_1",
+        "point_2",
+        "point_3",
+        "routine_1",
+        "routine_2",
+        "routine_3",
+        "routine_4",
+        "step_1",
+        "step_2",
+        "step_3",
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "trust_4",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5"
+      ]
+    }
+  },
+  "order": ["home"]
+}

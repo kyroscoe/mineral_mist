@@ -1,0 +1,14 @@
+<section class="section">
+  <div class="section-inner page-content">
+    <p class="eyebrow">{{ shop.name | escape }}</p>
+    <h1>{{ page.title | escape }}</h1>
+    <div class="rte">{{ page.content }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main page",
+  "settings": []
+}
+{% endschema %}

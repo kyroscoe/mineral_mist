@@ -125,7 +125,7 @@ button {
   width: min(980px, 94vw);
   aspect-ratio: 1 / 1;
   pointer-events: none;
-  background-image: url("assets/mineral-mist-logo-light.jpg");
+  background-image: url("mineral-mist-logo-light.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
