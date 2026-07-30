@@ -22,7 +22,7 @@
             "label": "Hydrate, soothe, refresh",
             "description": "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "product_2": {
@@ -35,7 +35,7 @@
             "label": "Cooling tension support",
             "description": "A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "product_3": {
@@ -48,7 +48,7 @@
             "label": "Post-activity refresh",
             "description": "A cooling muscle spray made to refresh tired, overworked muscles after workouts, sports, physical labor, or everyday activity.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "product_4": {
@@ -61,7 +61,7 @@
             "label": "Relaxation and balance",
             "description": "A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "point_1": {

@@ -7,7 +7,7 @@ const products = [
     description:
       "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "pure-mineral-mist",
   },
   {
@@ -18,7 +18,7 @@ const products = [
     description:
       "A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "head-ease",
   },
   {
@@ -29,7 +29,7 @@ const products = [
     description:
       "A cooling muscle spray made to refresh tired, overworked muscles after workouts, sports, physical labor, or everyday activity.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "post-recovery",
   },
   {
@@ -40,7 +40,7 @@ const products = [
     description:
       "A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "calm-uplift",
   },
 ];
