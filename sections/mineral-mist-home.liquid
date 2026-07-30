@@ -1,0 +1,347 @@
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero-image">
+    <img
+      src="{{ section.settings.hero_image | default: 'product-lineup.jpg' | asset_url }}"
+      alt="{{ section.settings.hero_alt | escape }}"
+      width="1400"
+      height="940"
+    >
+  </div>
+  <div class="hero-content">
+    <p class="eyebrow">{{ section.settings.hero_eyebrow | escape }}</p>
+    <h1 id="hero-title">{{ section.settings.hero_title }}</h1>
+    <p>{{ section.settings.hero_text | escape }}</p>
+    <div class="button-row">
+      <a class="button button-primary" href="#products">{{ section.settings.hero_primary_label | escape }}</a>
+      <a class="button button-secondary" href="#why-magnesium">{{ section.settings.hero_secondary_label | escape }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section products-section" id="products" aria-labelledby="products-title">
+  <div class="section-inner">
+    <div class="section-heading centered">
+      <p class="eyebrow">{{ section.settings.products_eyebrow | escape }}</p>
+      <h2 id="products-title">{{ section.settings.products_title }}</h2>
+      <p>{{ section.settings.products_text | escape }}</p>
+    </div>
+    <div class="product-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'product_card' %}
+          {% assign card_product = block.settings.product %}
+          <article class="product-card" {{ block.shopify_attributes }}>
+            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}" aria-label="View {{ block.settings.title | escape }}">
+              {% if card_product.featured_image %}
+                <img
+                  src="{{ card_product.featured_image | image_url: width: 640 }}"
+                  alt="{{ card_product.featured_image.alt | default: card_product.title | escape }}"
+                  width="640"
+                  height="640"
+                  loading="lazy"
+                >
+              {% else %}
+                <img
+                  src="{{ block.settings.fallback_image | asset_url }}"
+                  alt="{{ block.settings.alt | escape }}"
+                  width="640"
+                  height="640"
+                  loading="lazy"
+                >
+              {% endif %}
+            </a>
+            <div class="product-content">
+              <p class="product-kicker">{{ block.settings.label | escape }}</p>
+              <h3>{{ card_product.title | default: block.settings.title | escape }}</h3>
+              <p>
+                {% if card_product != blank and card_product.description != blank %}
+                  {{ card_product.description | strip_html | truncate: 145 }}
+                {% else %}
+                  {{ block.settings.description | escape }}
+                {% endif %}
+              </p>
+              <div class="product-meta">
+                {% if card_product != blank %}
+                  {% if card_product.price_varies %}
+                    From {{ card_product.price_min | money }}
+                  {% else %}
+                    {{ card_product.price | money }}
+                  {% endif %}
+                {% else %}
+                  {{ block.settings.fallback_price | escape }}
+                {% endif %}
+                <span>{{ block.settings.size | escape }}</span>
+              </div>
+              <div class="product-actions">
+                <a class="button button-outline" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}">View Product</a>
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section mineral-section" id="why-magnesium" aria-labelledby="magnesium-title">
+  <div class="section-inner split-layout">
+    <div class="editorial-image scroll-zoom-media" data-scroll-zoom>
+      <img
+        src="{{ section.settings.magnesium_image | default: 'neutral-mist-lifestyle.jpg' | asset_url }}"
+        alt="{{ section.settings.magnesium_alt | escape }}"
+        width="900"
+        height="1125"
+        loading="lazy"
+      >
+    </div>
+    <div class="editorial-copy">
+      <p class="eyebrow">{{ section.settings.magnesium_eyebrow | escape }}</p>
+      <h2 id="magnesium-title">{{ section.settings.magnesium_title | escape }}</h2>
+      <p>{{ section.settings.magnesium_intro | escape }}</p>
+      <div class="point-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'magnesium_point' %}
+            <article class="point-card" {{ block.shopify_attributes }}>
+              <h3>{{ block.settings.title | escape }}</h3>
+              <p>{{ block.settings.text | escape }}</p>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section routine-section" aria-labelledby="routine-title">
+  <div class="section-inner">
+    <div class="section-heading centered">
+      <p class="eyebrow">{{ section.settings.routine_eyebrow | escape }}</p>
+      <h2 id="routine-title">{{ section.settings.routine_title | escape }}</h2>
+    </div>
+    <div class="routine-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'routine_card' %}
+          <article class="routine-card" {{ block.shopify_attributes }}>
+            <span class="routine-icon">{% render 'mineral-mist-icon', icon: block.settings.icon %}</span>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.text | escape }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section steps-section" aria-labelledby="steps-title">
+  <div class="section-inner">
+    <div class="section-heading centered">
+      <p class="eyebrow">{{ section.settings.steps_eyebrow | escape }}</p>
+      <h2 id="steps-title">{{ section.settings.steps_title | escape }}</h2>
+    </div>
+    <div class="steps-grid">
+      {% assign step_number = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'step' %}
+          {% assign step_number = step_number | plus: 1 %}
+          <article class="step-card" {{ block.shopify_attributes }}>
+            <span class="step-number">{{ step_number }}</span>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.text | escape }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <p class="content-note">{{ section.settings.steps_note | escape }}</p>
+  </div>
+</section>
+
+<section class="section story-section" id="story" aria-labelledby="story-title">
+  <div class="section-inner split-layout split-layout-reverse">
+    <div class="editorial-copy">
+      <p class="eyebrow">{{ section.settings.story_eyebrow | escape }}</p>
+      <h2 id="story-title">{{ section.settings.story_title | escape }}</h2>
+      <p>{{ section.settings.story_text | escape }}</p>
+    </div>
+    <div class="editorial-image product-story-image">
+      <img
+        src="{{ section.settings.story_image | default: 'pure-mineral-mist.jpg' | asset_url }}"
+        alt="{{ section.settings.story_alt | escape }}"
+        width="900"
+        height="1125"
+        loading="lazy"
+      >
+    </div>
+  </div>
+</section>
+
+<section class="trust-section" aria-label="Mineral Mist trust statements">
+  <div class="section-inner trust-row">
+    {% for block in section.blocks %}
+      {% if block.type == 'trust_item' %}
+        <div class="trust-item" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section faq-section" id="faq" aria-labelledby="faq-title">
+  <div class="section-inner faq-layout">
+    <div>
+      <p class="eyebrow">{{ section.settings.faq_eyebrow | escape }}</p>
+      <h2 id="faq-title">{{ section.settings.faq_title | escape }}</h2>
+    </div>
+    <div class="faq-list">
+      {% for block in section.blocks %}
+        {% if block.type == 'faq' %}
+          <details class="faq-item" {{ block.shopify_attributes }}>
+            <summary>{{ block.settings.question | escape }}</summary>
+            <p>{{ block.settings.answer | escape }}</p>
+          </details>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-section" id="contact" aria-labelledby="newsletter-title">
+  <div class="section-inner newsletter-layout">
+    <div>
+      <p class="eyebrow">{{ section.settings.newsletter_eyebrow | escape }}</p>
+      <h2 id="newsletter-title">{{ section.settings.newsletter_title | escape }}</h2>
+      <p>{{ section.settings.newsletter_text | escape }}</p>
+    </div>
+    {% form 'customer', class: 'newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="newsletter-email">Email address</label>
+      <div class="newsletter-row">
+        <input
+          id="newsletter-email"
+          type="email"
+          name="contact[email]"
+          placeholder="you@example.com"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          required
+        >
+        <button class="button button-primary" type="submit">Submit</button>
+      </div>
+      <p class="form-note">{{ section.settings.newsletter_note | escape }}</p>
+      {% if form.posted_successfully? %}
+        <p class="form-status" role="status">Thanks. You're on the list.</p>
+      {% elsif form.errors %}
+        <p class="form-status" role="status">{{ form.errors | default_errors }}</p>
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Mineral Mist home",
+  "settings": [
+    { "type": "text", "id": "hero_image", "label": "Hero asset filename", "default": "product-lineup.jpg" },
+    { "type": "text", "id": "hero_alt", "label": "Hero image alt text", "default": "Four Mineral Mist spray bottles arranged together" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Hero eyebrow", "default": "Pure. Simple. Mineral." },
+    { "type": "textarea", "id": "hero_title", "label": "Hero title HTML", "default": "<span><span class=\"hero-number\">100%</span> Pure</span> <span>Magnesium</span> <span>from the Dead Sea</span>" },
+    { "type": "textarea", "id": "hero_text", "label": "Hero text", "default": "Discover pure Dead Sea magnesium blended with essential oils for a simple daily wellness ritual." },
+    { "type": "text", "id": "hero_primary_label", "label": "Primary button label", "default": "Shop Mineral Mist" },
+    { "type": "text", "id": "hero_secondary_label", "label": "Secondary button label", "default": "Why Dead Sea Magnesium?" },
+    { "type": "text", "id": "products_eyebrow", "label": "Products eyebrow", "default": "The complete collection" },
+    { "type": "textarea", "id": "products_title", "label": "Products title HTML", "default": "Meet the <span>Mineral Mist</span> <span>Collection</span>" },
+    { "type": "textarea", "id": "products_text", "label": "Products text", "default": "Four focused magnesium products designed to fit naturally into your daily routine." },
+    { "type": "text", "id": "magnesium_image", "label": "Magnesium image asset filename", "default": "neutral-mist-lifestyle.jpg" },
+    { "type": "text", "id": "magnesium_alt", "label": "Magnesium image alt text", "default": "Mineral Mist bottle beside a calm mineral water setting" },
+    { "type": "text", "id": "magnesium_eyebrow", "label": "Magnesium eyebrow", "default": "Why magnesium" },
+    { "type": "text", "id": "magnesium_title", "label": "Magnesium title", "default": "Why Dead Sea Magnesium?" },
+    { "type": "textarea", "id": "magnesium_intro", "label": "Magnesium intro", "default": "Mineral Mist keeps the focus on one clear ingredient story: 100% pure magnesium from the Dead Sea blended with essential oils in a convenient topical spray format for daily wellness routines." },
+    { "type": "text", "id": "routine_eyebrow", "label": "Routine eyebrow", "default": "Daily use" },
+    { "type": "text", "id": "routine_title", "label": "Routine title", "default": "Made for Everyday Routines" },
+    { "type": "text", "id": "steps_eyebrow", "label": "Steps eyebrow", "default": "How to use" },
+    { "type": "text", "id": "steps_title", "label": "Steps title", "default": "Simple to Use" },
+    { "type": "textarea", "id": "steps_note", "label": "Steps note", "default": "Use according to the directions on your specific Mineral Mist product." },
+    { "type": "text", "id": "story_eyebrow", "label": "Story eyebrow", "default": "Our story" },
+    { "type": "text", "id": "story_title", "label": "Story title", "default": "Pure Minerals. No Complicated Routine." },
+    { "type": "textarea", "id": "story_text", "label": "Story text", "default": "Mineral Mist was created around a straightforward idea: offer a high-quality magnesium spray that keeps the ritual simple. Each product starts with pure magnesium from the Dead Sea and is designed to be easy to keep close throughout the day." },
+    { "type": "text", "id": "story_image", "label": "Story image asset filename", "default": "pure-mineral-mist.jpg" },
+    { "type": "text", "id": "story_alt", "label": "Story image alt text", "default": "Pure Mineral Mist bottle and box" },
+    { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow", "default": "FAQ" },
+    { "type": "text", "id": "faq_title", "label": "FAQ title", "default": "Frequently Asked Questions" },
+    { "type": "text", "id": "newsletter_eyebrow", "label": "Newsletter eyebrow", "default": "Stay close" },
+    { "type": "text", "id": "newsletter_title", "label": "Newsletter title", "default": "Bring Mineral Mist into your routine." },
+    { "type": "textarea", "id": "newsletter_text", "label": "Newsletter text", "default": "Join for product updates, restock notes, and simple ritual ideas." },
+    { "type": "textarea", "id": "newsletter_note", "label": "Newsletter note", "default": "By submitting, you agree to receive Mineral Mist emails. You can unsubscribe at any time." }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Shopify product" },
+        { "type": "text", "id": "title", "label": "Fallback title", "default": "Pure Mineral Mist" },
+        { "type": "text", "id": "fallback_image", "label": "Fallback asset filename", "default": "pure-mineral-mist.jpg" },
+        { "type": "text", "id": "alt", "label": "Fallback image alt text", "default": "Pure Mineral Mist spray bottle and box" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Everyday magnesium" },
+        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Pure Dead Sea magnesium blended with essential oil in a clean daily spray for simple refresh moments." },
+        { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "Price coming soon" },
+        { "type": "text", "id": "size", "label": "Size text", "default": "Size details coming soon" }
+      ]
+    },
+    {
+      "type": "magnesium_point",
+      "name": "Magnesium point",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Sourced from the mineral-rich Dead Sea" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "A distinctive mineral source gives Mineral Mist its simple, focused foundation." }
+      ]
+    },
+    {
+      "type": "routine_card",
+      "name": "Routine card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "sun",
+          "options": [
+            { "value": "sun", "label": "Sun" },
+            { "value": "move", "label": "Movement" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "drop", "label": "Drop" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Morning Routine" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Keep Mineral Mist nearby as a simple mineral-forward start to the day." }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Spray" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Apply according to the directions on your specific Mineral Mist product." }
+      ]
+    },
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "100% Pure Magnesium" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What is Mineral Mist?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Mineral Mist is a small collection of magnesium spray mists designed for simple daily wellness routines." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mineral Mist home"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+{% case icon %}
+  {% when 'sun' %}
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 4V2M12 22v-2M4.9 4.9 3.5 3.5M20.5 20.5l-1.4-1.4M4 12H2M22 12h-2M4.9 19.1l-1.4 1.4M20.5 3.5l-1.4 1.4M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
+  {% when 'move' %}
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 16c2.4 0 2.4-8 4.8-8s2.4 8 4.8 8S16 8 18.4 8H20M5 20h14"/></svg>
+  {% when 'moon' %}
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 15.2A8.2 8.2 0 0 1 8.8 4 8.7 8.7 0 1 0 20 15.2Z"/></svg>
+  {% else %}
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11Z"/></svg>
+{% endcase %}
