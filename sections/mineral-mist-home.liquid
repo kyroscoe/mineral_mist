@@ -29,8 +29,30 @@
       {% for block in section.blocks %}
         {% if block.type == 'product_card' %}
           {% assign card_product = block.settings.product %}
+          {% assign card_title = card_product.title | default: block.settings.title %}
+          {% capture card_description %}
+            {% case card_product.handle %}
+              {% when 'calm-uplift' %}
+                A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.
+              {% when 'head-ease' %}
+                A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.
+              {% when 'post-recovery' %}
+                A cooling muscle spray made to refresh tired, overworked muscles after workouts, sports, physical labor, or everyday activity.
+              {% when 'pure-mineral-mist' %}
+                Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin.
+              {% else %}
+                {% if card_product != blank and card_product.description != blank %}
+                  {{ card_product.description | strip_html | truncate: 145 }}
+                {% else %}
+                  {{ block.settings.description }}
+                {% endif %}
+            {% endcase %}
+          {% endcapture %}
+          {% if card_product.handle == 'post-recovery' %}
+            {% assign card_title = 'Post Recovery - Witch Hazel' %}
+          {% endif %}
           <article class="product-card" {{ block.shopify_attributes }}>
-            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}" aria-label="View {{ block.settings.title | escape }}">
+            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}" aria-label="View {{ card_title | escape }}">
               {% if card_product.featured_image %}
                 <img
                   src="{{ card_product.featured_image | image_url: width: 640 }}"
@@ -51,14 +73,8 @@
             </a>
             <div class="product-content">
               <p class="product-kicker">{{ block.settings.label | escape }}</p>
-              <h3>{{ card_product.title | default: block.settings.title | escape }}</h3>
-              <p>
-                {% if card_product != blank and card_product.description != blank %}
-                  {{ card_product.description | strip_html | truncate: 145 }}
-                {% else %}
-                  {{ block.settings.description | escape }}
-                {% endif %}
-              </p>
+              <h3>{{ card_title | escape }}</h3>
+              <p>{{ card_description | strip | escape }}</p>
               <div class="product-meta">
                 {% if card_product != blank %}
                   {% if card_product.price_varies %}
@@ -280,8 +296,8 @@
         { "type": "text", "id": "title", "label": "Fallback title", "default": "Pure Mineral Mist" },
         { "type": "text", "id": "fallback_image", "label": "Fallback asset filename", "default": "pure-mineral-mist.jpg" },
         { "type": "text", "id": "alt", "label": "Fallback image alt text", "default": "Pure Mineral Mist spray bottle and box" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Everyday magnesium" },
-        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Pure Dead Sea magnesium blended with essential oil in a clean daily spray for simple refresh moments." },
+        { "type": "text", "id": "label", "label": "Label", "default": "Hydrate, soothe, refresh" },
+        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin." },
         { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "Price coming soon" },
         { "type": "text", "id": "size", "label": "Size text", "default": "Size details coming soon" }
       ]
