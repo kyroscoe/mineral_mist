@@ -1,0 +1,21 @@
+<div id="{{ modal_id }}" class="product-details-modal" data-product-details-modal hidden>
+  <div class="product-details-overlay" data-product-details-close></div>
+  <div
+    class="product-details-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="{{ title_id }}"
+    tabindex="-1"
+  >
+    <button class="product-details-close" type="button" aria-label="Close product details" data-product-details-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="product-details-content" tabindex="0">
+      <p class="eyebrow">Mineral Mist</p>
+      <h2 id="{{ title_id }}">{{ title | escape }}</h2>
+      <div class="product-description product-description-full rte">
+        {{ details }}
+      </div>
+    </div>
+  </div>
+</div>

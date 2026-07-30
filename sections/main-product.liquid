@@ -24,7 +24,21 @@
       {% if product.handle == 'post-recovery' %}
         {% assign product_title = 'Post Recovery - Witch Hazel' %}
       {% endif %}
-      {% capture packaged_description %}
+      {% capture product_short_description %}
+        {% case product.handle %}
+          {% when 'calm-uplift' %}
+            <p>A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.</p>
+          {% when 'head-ease' %}
+            <p>A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.</p>
+          {% when 'post-recovery' %}
+            <p>A cooling muscle spray designed to refresh tired and overworked muscles after workouts, sports, physical labor, or everyday activity.</p>
+          {% when 'pure-mineral-mist' %}
+            <p>A refreshing blend of Dead Sea magnesium, vitamin E, and lavender essential oil created to hydrate, soothe, and refresh the skin and senses.</p>
+          {% else %}
+            {{ product.description }}
+        {% endcase %}
+      {% endcapture %}
+      {% capture product_full_details %}
         {% case product.handle %}
           {% when 'calm-uplift' %}
             <p>A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.</p>
@@ -152,7 +166,8 @@
             <p class="product-caution">For external use only. Avoid contact with eyes. If irritation occurs, discontinue use. Keep out of reach of children. Store in a cool, dry place.</p>
         {% endcase %}
       {% endcapture %}
-      {% assign packaged_description = packaged_description | strip %}
+      {% assign product_short_description = product_short_description | strip %}
+      {% assign product_full_details = product_full_details | strip %}
       <p class="eyebrow">Mineral Mist</p>
       <h1>{{ product_title | escape }}</h1>
       <div class="product-page-price">
@@ -162,10 +177,10 @@
           {{ product.price | money }}
         {% endif %}
       </div>
-      {% if packaged_description != blank %}
-        <div class="product-description rte">{{ packaged_description }}</div>
+      {% if product_short_description != blank %}
+        <div class="product-description product-description-summary rte">{{ product_short_description }}</div>
       {% elsif product.description != blank %}
-        <div class="product-description rte">{{ product.description }}</div>
+        <div class="product-description product-description-summary rte">{{ product.description }}</div>
       {% endif %}
 
       {% form 'product', product, class: 'product-form' %}
@@ -197,6 +212,19 @@
           {% if product.selected_or_first_available_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
         </button>
       {% endform %}
+
+      {% if product_full_details != blank %}
+        <button
+          class="button product-details-trigger"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="ProductDetailsModal-{{ section.id }}"
+          data-product-details-open
+        >
+          <span aria-hidden="true">+</span>
+          Read Full Product Details
+        </button>
+      {% endif %}
 
       {% assign bundle_product_1 = section.settings.bundle_product_1 %}
       {% assign bundle_product_2 = section.settings.bundle_product_2 %}
@@ -257,6 +285,17 @@
       </div>
     </div>
   </div>
+
+  {% if product_full_details != blank %}
+    {% assign product_details_modal_id = 'ProductDetailsModal-' | append: section.id %}
+    {% assign product_details_title_id = 'ProductDetailsTitle-' | append: section.id %}
+    {% render 'product-details-modal',
+      modal_id: product_details_modal_id,
+      title_id: product_details_title_id,
+      title: product_title,
+      details: product_full_details
+    %}
+  {% endif %}
 </section>
 
 {% schema %}
