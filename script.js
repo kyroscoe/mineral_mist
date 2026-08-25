@@ -3,44 +3,44 @@ const products = [
     name: "Pure Mineral Mist",
     image: "assets/pure-mineral-mist.jpg",
     alt: "Pure Mineral Mist spray bottle and box",
-    label: "Everyday magnesium",
+    label: "Hydrate, soothe, refresh",
     description:
-      "Pure Dead Sea magnesium blended with essential oil in a clean daily spray for simple refresh moments.",
+      "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "pure-mineral-mist",
   },
   {
     name: "Head Ease",
     image: "assets/head-ease.jpg",
     alt: "Head Ease Mineral Mist spray bottle and box",
-    label: "Peppermint blend",
+    label: "Cooling tension support",
     description:
-      "Dead Sea magnesium blended with 100% pure peppermint essential oil for a crisp sensory reset.",
+      "A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "head-ease",
   },
   {
-    name: "Post Recovery",
+    name: "Post Recovery - Witch Hazel",
     image: "assets/post-recovery.jpg",
     alt: "Post Recovery Mineral Mist spray bottle and box",
-    label: "After movement",
+    label: "Post-activity refresh",
     description:
-      "A mineral-forward spray with essential oils designed to fit into post-workout and end-of-day care routines.",
+      "A cooling muscle spray made to refresh tired, overworked muscles after workouts, sports, physical labor, or everyday activity.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "post-recovery",
   },
   {
     name: "Calm & Uplift",
     image: "assets/calm-uplift.jpg",
     alt: "Calm and Uplift Mineral Mist spray bottle and box",
-    label: "Rose water softness",
+    label: "Relaxation and balance",
     description:
-      "Dead Sea magnesium blended with essential oils in a soft floral mist for slower daily pauses.",
+      "A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.",
     price: "Price coming soon",
-    size: "Size details coming soon",
+    size: "",
     slug: "calm-uplift",
   },
 ];
@@ -126,7 +126,7 @@ const faqs = [
   {
     question: "How do I use Mineral Mist?",
     answer:
-      "Use each product according to the directions on its label. Product-specific instructions should be confirmed before launch.",
+      "Use Mineral Mist as part of the daily wellness routine suggested for each product, and follow the directions on the product packaging.",
   },
   {
     question: "Which product is right for me?",
@@ -136,7 +136,7 @@ const faqs = [
   {
     question: "Where can I find ingredient and safety information?",
     answer:
-      "Ingredient and safety details should be reviewed on the product packaging or any client-approved product detail page once available.",
+      "Ingredient details are listed on each product page. For external use only. Avoid contact with eyes and discontinue use if irritation occurs.",
   },
 ];
 

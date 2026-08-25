@@ -10,6 +10,7 @@
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
     {% endif %}
+    <meta name="facebook-domain-verification" content="jez0ohnv0cb24h4roe0oomykfq0ois" />
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +19,23 @@
       rel="stylesheet"
     >
     {{ 'styles.css' | asset_url | stylesheet_tag }}
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1395565528742663');
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" src="https://www.facebook.com/tr?id=1395565528742663&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
     {{ content_for_header }}
   </head>
   <body>
