@@ -4,6 +4,7 @@ const navLinks = document.querySelectorAll(".mobile-nav a");
 const scrollZoomMedia = document.querySelectorAll("[data-scroll-zoom]");
 const pageWatermark = document.querySelector(".page-watermark");
 const bundleForms = document.querySelectorAll("[data-bundle-form]");
+const productDetailsTriggers = document.querySelectorAll("[data-product-details-open]");
 
 const closeMenu = () => {
   if (!menuButton || !mobileNav) return;
@@ -180,6 +181,85 @@ const initBundleForms = () => {
   });
 };
 
+const initProductDetailsModals = () => {
+  if (!productDetailsTriggers.length) return;
+
+  const focusableSelector = [
+    "a[href]",
+    "button:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])',
+  ].join(",");
+
+  productDetailsTriggers.forEach((trigger) => {
+    const modalId = trigger.getAttribute("aria-controls");
+    const modal = modalId ? document.getElementById(modalId) : null;
+    if (!modal) return;
+
+    const dialog = modal.querySelector('[role="dialog"]');
+    const closeButtons = modal.querySelectorAll("[data-product-details-close]");
+    let lastFocusedElement = null;
+
+    const getFocusableElements = () =>
+      Array.from(modal.querySelectorAll(focusableSelector)).filter(
+        (element) => !element.hasAttribute("hidden") && element.offsetParent !== null,
+      );
+
+    const closeModal = () => {
+      modal.hidden = true;
+      document.body.classList.remove("product-details-open");
+      document.removeEventListener("keydown", handleKeydown);
+      lastFocusedElement?.focus();
+    };
+
+    const openModal = () => {
+      lastFocusedElement = document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add("product-details-open");
+      document.addEventListener("keydown", handleKeydown);
+
+      const focusableElements = getFocusableElements();
+      window.requestAnimationFrame(() => {
+        (focusableElements[0] || dialog)?.focus();
+      });
+    };
+
+    function handleKeydown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = getFocusableElements();
+      if (!focusableElements.length) {
+        event.preventDefault();
+        dialog?.focus();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
+
+    trigger.addEventListener("click", openModal);
+    closeButtons.forEach((button) => button.addEventListener("click", closeModal));
+  });
+};
+
 initScrollZoom();
 initScrollingWatermark();
 initBundleForms();
+initProductDetailsModals();
