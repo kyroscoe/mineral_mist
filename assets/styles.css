@@ -567,6 +567,25 @@ p {
   padding-top: 18px;
 }
 
+.product-card-form {
+  display: grid;
+  gap: 8px;
+}
+
+.product-card-form .button,
+.product-card-form .shopify-payment-button__button {
+  width: 100%;
+}
+
+.product-card-form .shopify-payment-button__button {
+  min-height: var(--button-height);
+  border-radius: var(--radius-sm);
+}
+
+.product-card-form .shopify-payment-button__more-options {
+  display: none;
+}
+
 .split-layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
@@ -1075,6 +1094,11 @@ p {
 .product-form button[disabled] {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+.product-form .shopify-payment-button__button {
+  min-height: var(--button-height);
+  border-radius: var(--radius-sm);
 }
 
 .bundle-offer {

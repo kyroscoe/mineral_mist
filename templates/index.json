@@ -16,7 +16,7 @@
           "type": "product_card",
           "settings": {
             "product": "pure-mineral-mist",
-            "title": "Pure Mineral Mist",
+            "title": "Mineral Mist Magnesium Spray",
             "fallback_image": "pure-mineral-mist.jpg",
             "alt": "Pure Mineral Mist spray bottle and box",
             "label": "SLEEP AND RELAXTION",
@@ -29,7 +29,7 @@
           "type": "product_card",
           "settings": {
             "product": "head-ease",
-            "title": "Head Ease",
+            "title": "Head Ease Cooling Magnesium Spray",
             "fallback_image": "head-ease.jpg",
             "alt": "Head Ease Mineral Mist spray bottle and box",
             "label": "Cooling tension support",
@@ -55,7 +55,7 @@
           "type": "product_card",
           "settings": {
             "product": "calm-uplift",
-            "title": "Calm & Uplift",
+            "title": "Calm & Uplift Magnesium Spray",
             "fallback_image": "calm-uplift.jpg",
             "alt": "Calm and Uplift Mineral Mist spray bottle and box",
             "label": "Relaxation and balance",

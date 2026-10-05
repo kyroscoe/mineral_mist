@@ -20,6 +20,7 @@
       {% for block in section.blocks %}
         {% if block.type == 'product_card' %}
           {% assign card_product = block.settings.product %}
+          {% assign card_variant = card_product.selected_or_first_available_variant %}
           {% assign card_title = card_product.title | default: block.settings.title %}
           {% capture card_description %}
             {% case card_product.handle %}
@@ -47,7 +48,7 @@
               {% if card_product.featured_image %}
                 <img
                   src="{{ card_product.featured_image | image_url: width: 640 }}"
-                  alt="{{ card_product.featured_image.alt | default: card_product.title | escape }}"
+                  alt="{{ card_product.featured_image.alt | default: card_title | escape }}"
                   width="640"
                   height="640"
                   loading="lazy"
@@ -79,7 +80,25 @@
                 <span>{{ block.settings.size | escape }}</span>
               </div>
               <div class="product-actions">
-                <a class="button button-outline" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}">View Product</a>
+                {% if card_product != blank %}
+                  {% form 'product', card_product, class: 'product-card-form' %}
+                    <input type="hidden" name="id" value="{{ card_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button
+                      class="button button-primary"
+                      type="submit"
+                      {% unless card_variant.available %}disabled{% endunless %}
+                    >
+                      {% if card_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+                    {% if card_variant.available %}
+                      {{ form | payment_button }}
+                    {% endif %}
+                  {% endform %}
+                  <a class="button button-outline" href="{{ card_product.url }}">View Product</a>
+                {% else %}
+                  <a class="button button-outline" href="#products">View Product</a>
+                {% endif %}
               </div>
             </div>
           </article>
@@ -284,7 +303,7 @@
       "name": "Product card",
       "settings": [
         { "type": "product", "id": "product", "label": "Shopify product" },
-        { "type": "text", "id": "title", "label": "Fallback title", "default": "Pure Mineral Mist" },
+        { "type": "text", "id": "title", "label": "Display title", "default": "Mineral Mist Magnesium Spray" },
         { "type": "text", "id": "fallback_image", "label": "Fallback asset filename", "default": "pure-mineral-mist.jpg" },
         { "type": "text", "id": "alt", "label": "Fallback image alt text", "default": "Pure Mineral Mist spray bottle and box" },
         { "type": "text", "id": "label", "label": "Label", "default": "Hydrate, soothe, refresh" },

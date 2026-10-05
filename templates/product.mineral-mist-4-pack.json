@@ -12,8 +12,8 @@
     "main": {
       "type": "main-product",
       "settings": {
-        "fallback_image": "pure-mineral-mist.jpg",
-        "show_bundle_offer": true,
+        "fallback_image": "product-lineup.jpg",
+        "show_bundle_offer": false,
         "bundle_product_1": "calm-uplift",
         "bundle_product_2": "head-ease",
         "bundle_product_3": "post-recovery",
