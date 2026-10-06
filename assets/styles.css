@@ -598,6 +598,10 @@ p {
   background: var(--white);
 }
 
+.roll-on-section-heading {
+  margin-top: 44px;
+}
+
 .roll-on-media {
   display: grid;
   place-items: center;

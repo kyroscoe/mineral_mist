@@ -64,6 +64,58 @@
             "size": ""
           }
         },
+        "roll_on_1": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "",
+            "title": "Magnesium Relaxation Roll-On",
+            "fallback_image": "roll-on-collection.png",
+            "alt": "Magnesium Relaxation Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist relaxation formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
+        "roll_on_2": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "",
+            "title": "Post Recovery Roll-On",
+            "fallback_image": "roll-on-collection.png",
+            "alt": "Post Recovery Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist post-recovery formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
+        "roll_on_3": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "",
+            "title": "Head Ease Roll-On",
+            "fallback_image": "roll-on-collection.png",
+            "alt": "Head Ease Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist Head Ease formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
+        "roll_on_4": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "",
+            "title": "Calm & Uplift Roll-On",
+            "fallback_image": "roll-on-collection.png",
+            "alt": "Calm and Uplift Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist Calm & Uplift formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
         "point_1": {
           "type": "magnesium_point",
           "settings": {
@@ -203,6 +255,10 @@
         "product_2",
         "product_3",
         "product_4",
+        "roll_on_1",
+        "roll_on_2",
+        "roll_on_3",
+        "roll_on_4",
         "point_1",
         "point_2",
         "point_3",

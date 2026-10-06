@@ -160,7 +160,112 @@
       </div>
     </article>
 
-    <article class="roll-on-feature" aria-labelledby="roll-on-title">
+    <div class="section-heading centered roll-on-section-heading">
+      <p class="eyebrow">New smaller size</p>
+      <h2 id="roll-on-title">Mineral Mist Roll On Collection</h2>
+      <p>Same Mineral Mist formulas in smaller 1 oz glass roll-on bottles, sold individually for easy targeted use.</p>
+    </div>
+
+    <div class="product-grid roll-on-grid" aria-labelledby="roll-on-title">
+      {% for block in section.blocks %}
+        {% if block.type == 'roll_on_card' %}
+          {% assign card_product = block.settings.product %}
+          {% assign card_variant = card_product.selected_or_first_available_variant %}
+          {% assign card_title = card_product.title | default: block.settings.title %}
+          {% capture card_description %}
+            {% if card_product != blank and card_product.description != blank %}
+              {{ card_product.description | strip_html | truncate: 145 }}
+            {% else %}
+              {{ block.settings.description }}
+            {% endif %}
+          {% endcapture %}
+          <article class="product-card" {{ block.shopify_attributes }}>
+            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#roll-on-title{% endif %}" aria-label="View {{ card_title | escape }}">
+              {% if card_product.featured_image %}
+                <img
+                  src="{{ card_product.featured_image | image_url: width: 640 }}"
+                  alt="{{ card_product.featured_image.alt | default: card_title | escape }}"
+                  width="640"
+                  height="640"
+                  loading="lazy"
+                >
+              {% else %}
+                <img
+                  src="{{ block.settings.fallback_image | asset_url }}"
+                  alt="{{ block.settings.alt | escape }}"
+                  width="640"
+                  height="640"
+                  loading="lazy"
+                >
+              {% endif %}
+            </a>
+            <div class="product-content">
+              <p class="product-kicker">{{ block.settings.label | escape }}</p>
+              <h3>{{ card_title | escape }}</h3>
+              <p>{{ card_description | strip | escape }}</p>
+              <div class="product-meta">
+                {% if card_product != blank %}
+                  {% if card_product.price_varies %}
+                    From {{ card_product.price_min | money }}
+                  {% else %}
+                    {{ card_product.price | money }}
+                  {% endif %}
+                {% else %}
+                  {{ block.settings.fallback_price | escape }}
+                {% endif %}
+                <span>{{ block.settings.size | escape }}</span>
+              </div>
+              <div class="product-actions">
+                {% if card_product != blank %}
+                  {% form 'product', card_product, class: 'product-card-form' %}
+                    <input type="hidden" name="id" value="{{ card_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button
+                      class="button button-primary"
+                      type="submit"
+                      {% unless card_variant.available %}disabled{% endunless %}
+                    >
+                      {% if card_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+                    {% if card_variant.available %}
+                      {{ form | payment_button }}
+                    {% endif %}
+                  {% endform %}
+                  <a class="button button-outline" href="{{ card_product.url }}">View Product</a>
+                {% else %}
+                  <a class="button button-outline" href="#roll-on-title">View Product</a>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% assign roll_on_bundle_ready = true %}
+    {% assign roll_on_count = 0 %}
+    {% for block in section.blocks %}
+      {% if block.type == 'roll_on_card' %}
+        {% assign roll_on_count = roll_on_count | plus: 1 %}
+        {% assign roll_on_product = block.settings.product %}
+        {% assign roll_on_variant = roll_on_product.selected_or_first_available_variant %}
+        {% if roll_on_product == blank %}
+          {% assign roll_on_bundle_ready = false %}
+        {% endif %}
+        {% unless roll_on_variant.available %}
+          {% assign roll_on_bundle_ready = false %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+    {% if roll_on_count == 0 %}
+      {% assign roll_on_bundle_ready = false %}
+    {% endif %}
+
+    <article
+      class="roll-on-feature roll-on-bundle-feature"
+      aria-labelledby="roll-on-bundle-title"
+      data-bundle-form
+    >
       <div class="roll-on-media">
         <img
           src="{{ 'roll-on-collection.png' | asset_url }}"
@@ -171,14 +276,35 @@
         >
       </div>
       <div class="roll-on-copy">
-        <p class="eyebrow">New smaller size</p>
-        <h3 id="roll-on-title">Mineral Mist Roll On Collection</h3>
-        <p>Same Mineral Mist formulas in smaller 1 oz glass roll-on bottles, sold individually for easy targeted use.</p>
+        <p class="eyebrow">Roll-on bundle</p>
+        <h3 id="roll-on-bundle-title">Complete Roll On Set</h3>
+        <p>Bundle all four 1 oz glass roll-ons together for targeted use at home, in a bag, or on the go.</p>
         <div class="roll-on-meta">
-          <strong>$9.99 each</strong>
-          <span>1 fl oz / 30 mL glass roll-on</span>
-          <span>Available in 4 formulas</span>
+          <strong>All 4 roll-ons</strong>
+          <span>1 fl oz / 30 mL each</span>
+          <span>Individual roll-ons are $9.99 each</span>
         </div>
+        <div class="bundle-product-inputs" aria-hidden="true">
+          {% for block in section.blocks %}
+            {% if block.type == 'roll_on_card' %}
+              {% assign roll_on_product = block.settings.product %}
+              {% assign roll_on_variant = roll_on_product.selected_or_first_available_variant %}
+              {% if roll_on_product != blank %}
+                <input type="hidden" name="items[][id]" value="{{ roll_on_variant.id }}">
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <button class="button button-primary" type="button" data-bundle-submit {% unless roll_on_bundle_ready %}disabled{% endunless %}>
+          Add All 4 Roll-Ons
+        </button>
+        <p class="bundle-offer-note" data-bundle-status>
+          {% if roll_on_bundle_ready %}
+            Adds one of each Mineral Mist roll-on to your cart.
+          {% else %}
+            Assign the four roll-on products in this section before enabling the bundle.
+          {% endif %}
+        </p>
       </div>
     </article>
   </div>
@@ -386,6 +512,20 @@
         { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin." },
         { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "Price coming soon" },
         { "type": "text", "id": "size", "label": "Size text", "default": "Size details coming soon" }
+      ]
+    },
+    {
+      "type": "roll_on_card",
+      "name": "Roll-on product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Shopify roll-on product" },
+        { "type": "text", "id": "title", "label": "Display title", "default": "Mineral Mist Roll-On" },
+        { "type": "text", "id": "fallback_image", "label": "Fallback asset filename", "default": "roll-on-collection.png" },
+        { "type": "text", "id": "alt", "label": "Fallback image alt text", "default": "Mineral Mist glass roll-on bottle" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Glass roll-on" },
+        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Same Mineral Mist formula in a smaller 1 oz glass roll-on bottle for targeted use." },
+        { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "$9.99 each" },
+        { "type": "text", "id": "size", "label": "Size text", "default": "1 fl oz / 30 mL" }
       ]
     },
     {
