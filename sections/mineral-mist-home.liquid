@@ -94,6 +94,72 @@
         {% endif %}
       {% endfor %}
     </div>
+
+    {% assign bundle_product_1 = all_products['head-ease'] %}
+    {% assign bundle_product_2 = all_products['pure-mineral-mist'] %}
+    {% assign bundle_product_3 = all_products['post-recovery'] %}
+    {% assign bundle_product_4 = all_products['calm-uplift'] %}
+    {% assign bundle_variant_1 = bundle_product_1.selected_or_first_available_variant %}
+    {% assign bundle_variant_2 = bundle_product_2.selected_or_first_available_variant %}
+    {% assign bundle_variant_3 = bundle_product_3.selected_or_first_available_variant %}
+    {% assign bundle_variant_4 = bundle_product_4.selected_or_first_available_variant %}
+    {% assign bottle_bundle_ready = true %}
+    {% if bundle_product_1 == blank or bundle_product_2 == blank or bundle_product_3 == blank or bundle_product_4 == blank %}
+      {% assign bottle_bundle_ready = false %}
+    {% endif %}
+    {% unless bundle_variant_1.available and bundle_variant_2.available and bundle_variant_3.available and bundle_variant_4.available %}
+      {% assign bottle_bundle_ready = false %}
+    {% endunless %}
+
+    <article
+      class="roll-on-feature bottle-bundle-feature"
+      aria-labelledby="bottle-bundle-title"
+      data-bundle-form
+    >
+      <div class="roll-on-media">
+        <img
+          src="{{ 'product-lineup.jpg' | asset_url }}"
+          alt="Complete Mineral Mist full-size bottle collection"
+          width="1400"
+          height="940"
+          loading="lazy"
+        >
+      </div>
+      <div class="roll-on-copy">
+        <p class="eyebrow">Full-size bundle</p>
+        <h3 id="bottle-bundle-title">Complete Mineral Mist Bottle Set</h3>
+        <p>Get all four full-size Mineral Mist sprays together: Head Ease, Pure Mineral Mist, Post Recovery, and Calm &amp; Uplift.</p>
+        <div class="roll-on-meta">
+          <strong>All 4 products</strong>
+          <span>Full-size spray bottle collection</span>
+        </div>
+        <div class="bundle-product-inputs" aria-hidden="true">
+          {% if bundle_product_1 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_1.id }}">
+          {% endif %}
+          {% if bundle_product_2 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_2.id }}">
+          {% endif %}
+          {% if bundle_product_3 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_3.id }}">
+          {% endif %}
+          {% if bundle_product_4 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_4.id }}">
+          {% endif %}
+        </div>
+        <button class="button button-primary" type="button" data-bundle-submit {% unless bottle_bundle_ready %}disabled{% endunless %}>
+          Add All 4 Bottles
+        </button>
+        <p class="bundle-offer-note" data-bundle-status>
+          {% if bottle_bundle_ready %}
+            Adds one of each full-size Mineral Mist spray to your cart.
+          {% else %}
+            Bundle products need to be available before this can be added to cart.
+          {% endif %}
+        </p>
+      </div>
+    </article>
+
     <article class="roll-on-feature" aria-labelledby="roll-on-title">
       <div class="roll-on-media">
         <img
@@ -107,10 +173,11 @@
       <div class="roll-on-copy">
         <p class="eyebrow">New smaller size</p>
         <h3 id="roll-on-title">Mineral Mist Roll On Collection</h3>
-        <p>Same Mineral Mist formulas in a smaller 1 oz glass roll-on bottle for easy targeted use.</p>
+        <p>Same Mineral Mist formulas in smaller 1 oz glass roll-on bottles, sold individually for easy targeted use.</p>
         <div class="roll-on-meta">
-          <strong>$9.99</strong>
+          <strong>$9.99 each</strong>
           <span>1 fl oz / 30 mL glass roll-on</span>
+          <span>Available in 4 formulas</span>
         </div>
       </div>
     </article>

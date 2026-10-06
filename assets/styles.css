@@ -642,6 +642,18 @@ p {
   text-transform: uppercase;
 }
 
+.roll-on-copy .button {
+  margin-top: 20px;
+}
+
+.roll-on-copy .bundle-offer-note {
+  margin-top: 10px;
+}
+
+.bundle-product-inputs {
+  display: none;
+}
+
 .split-layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
