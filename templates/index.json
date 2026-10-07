@@ -67,7 +67,7 @@
         "roll_on_1": {
           "type": "roll_on_card",
           "settings": {
-            "product": "",
+            "product": "pure-mineral-mist-1",
             "title": "Magnesium Relaxation Roll-On",
             "fallback_image": "roll-on-magnesium-relaxation.png",
             "alt": "Magnesium Relaxation Mineral Mist glass roll-on bottle",
@@ -80,7 +80,7 @@
         "roll_on_2": {
           "type": "roll_on_card",
           "settings": {
-            "product": "",
+            "product": "post-recovery-1",
             "title": "Post Recovery Roll-On",
             "fallback_image": "roll-on-post-recovery.png",
             "alt": "Post Recovery Mineral Mist glass roll-on bottle",
@@ -93,7 +93,7 @@
         "roll_on_3": {
           "type": "roll_on_card",
           "settings": {
-            "product": "",
+            "product": "head-ease-roller-bottle",
             "title": "Head Ease Roll-On",
             "fallback_image": "roll-on-head-ease.png",
             "alt": "Head Ease Mineral Mist glass roll-on bottle",
@@ -106,7 +106,7 @@
         "roll_on_4": {
           "type": "roll_on_card",
           "settings": {
-            "product": "",
+            "product": "calm-uplift-roller-bottle",
             "title": "Calm & Uplift Roll-On",
             "fallback_image": "roll-on-calm-uplift.png",
             "alt": "Calm and Uplift Mineral Mist glass roll-on bottle",
