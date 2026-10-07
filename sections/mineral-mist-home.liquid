@@ -242,29 +242,12 @@
       {% endfor %}
     </div>
 
-    {% assign roll_on_bundle_ready = true %}
-    {% assign roll_on_count = 0 %}
-    {% for block in section.blocks %}
-      {% if block.type == 'roll_on_card' %}
-        {% assign roll_on_count = roll_on_count | plus: 1 %}
-        {% assign roll_on_product = block.settings.product %}
-        {% assign roll_on_variant = roll_on_product.selected_or_first_available_variant %}
-        {% if roll_on_product == blank %}
-          {% assign roll_on_bundle_ready = false %}
-        {% endif %}
-        {% unless roll_on_variant.available %}
-          {% assign roll_on_bundle_ready = false %}
-        {% endunless %}
-      {% endif %}
-    {% endfor %}
-    {% if roll_on_count == 0 %}
-      {% assign roll_on_bundle_ready = false %}
-    {% endif %}
+    {% assign roll_on_bundle_product = section.settings.roll_on_bundle_product %}
+    {% assign roll_on_bundle_variant = roll_on_bundle_product.selected_or_first_available_variant %}
 
     <article
       class="roll-on-feature roll-on-bundle-feature"
       aria-labelledby="roll-on-bundle-title"
-      data-bundle-form
     >
       <div class="roll-on-media">
         <img
@@ -284,25 +267,36 @@
           <span>1 fl oz / 30 mL each</span>
           <span>Individual roll-ons are $9.99 each</span>
         </div>
-        <div class="bundle-product-inputs" aria-hidden="true">
-          {% for block in section.blocks %}
-            {% if block.type == 'roll_on_card' %}
-              {% assign roll_on_product = block.settings.product %}
-              {% assign roll_on_variant = roll_on_product.selected_or_first_available_variant %}
-              {% if roll_on_product != blank %}
-                <input type="hidden" name="items[][id]" value="{{ roll_on_variant.id }}">
+        <div class="product-actions">
+          {% if roll_on_bundle_product != blank %}
+            {% form 'product', roll_on_bundle_product, class: 'product-card-form' %}
+              <input type="hidden" name="id" value="{{ roll_on_bundle_variant.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button
+                class="button button-primary"
+                type="submit"
+                {% unless roll_on_bundle_variant.available %}disabled{% endunless %}
+              >
+                {% if roll_on_bundle_variant.available %}Add Roll-On Bundle{% else %}Sold Out{% endif %}
+              </button>
+              {% if roll_on_bundle_variant.available %}
+                {{ form | payment_button }}
               {% endif %}
-            {% endif %}
-          {% endfor %}
-        </div>
-        <button class="button button-primary" type="button" data-bundle-submit {% unless roll_on_bundle_ready %}disabled{% endunless %}>
-          Add All 4 Roll-Ons
-        </button>
-        <p class="bundle-offer-note" data-bundle-status>
-          {% if roll_on_bundle_ready %}
-            Adds one of each Mineral Mist roll-on to your cart.
+            {% endform %}
+            <a class="button button-outline" href="{{ roll_on_bundle_product.url }}">View Bundle</a>
           {% else %}
-            Assign the four roll-on products in this section before enabling the bundle.
+            <a class="button button-outline" href="#roll-on-title">Assign Bundle Product</a>
+          {% endif %}
+        </div>
+        <p class="bundle-offer-note">
+          {% if roll_on_bundle_product != blank %}
+            {% if roll_on_bundle_variant.available %}
+              Adds the Shopify roll-on bundle product to your cart.
+            {% else %}
+              This roll-on bundle product is currently sold out.
+            {% endif %}
+          {% else %}
+            Assign the Shopify roll-on bundle product in this section's settings.
           {% endif %}
         </p>
       </div>
@@ -477,6 +471,7 @@
     { "type": "text", "id": "products_eyebrow", "label": "Products eyebrow", "default": "The complete collection" },
     { "type": "textarea", "id": "products_title", "label": "Products title HTML", "default": "Meet the <span>Mineral Mist</span> <span>Collection</span>" },
     { "type": "textarea", "id": "products_text", "label": "Products text", "default": "Four focused magnesium products designed to fit naturally into your daily routine." },
+    { "type": "product", "id": "roll_on_bundle_product", "label": "Roll-on bundle product" },
     { "type": "text", "id": "magnesium_image", "label": "Magnesium image asset filename", "default": "neutral-mist-lifestyle.jpg" },
     { "type": "text", "id": "magnesium_alt", "label": "Magnesium image alt text", "default": "Mineral Mist bottle beside a calm mineral water setting" },
     { "type": "text", "id": "magnesium_eyebrow", "label": "Magnesium eyebrow", "default": "Why magnesium" },
