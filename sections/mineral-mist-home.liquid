@@ -1,23 +1,3 @@
-<section class="hero" id="top" aria-labelledby="hero-title">
-  <div class="hero-image">
-    <img
-      src="{{ section.settings.hero_image | default: 'product-lineup.jpg' | asset_url }}"
-      alt="{{ section.settings.hero_alt | escape }}"
-      width="1400"
-      height="940"
-    >
-  </div>
-  <div class="hero-content">
-    <p class="eyebrow">{{ section.settings.hero_eyebrow | escape }}</p>
-    <h1 id="hero-title">{{ section.settings.hero_title }}</h1>
-    <p>{{ section.settings.hero_text | escape }}</p>
-    <div class="button-row">
-      <a class="button button-primary" href="#products">{{ section.settings.hero_primary_label | escape }}</a>
-      <a class="button button-secondary" href="#why-magnesium">{{ section.settings.hero_secondary_label | escape }}</a>
-    </div>
-  </div>
-</section>
-
 <section class="section products-section" id="products" aria-labelledby="products-title">
   <div class="section-inner">
     <div class="section-heading centered">
@@ -29,12 +9,35 @@
       {% for block in section.blocks %}
         {% if block.type == 'product_card' %}
           {% assign card_product = block.settings.product %}
+          {% assign card_variant = card_product.selected_or_first_available_variant %}
+          {% assign card_title = card_product.title | default: block.settings.title %}
+          {% capture card_description %}
+            {% case card_product.handle %}
+              {% when 'calm-uplift' %}
+                A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.
+              {% when 'head-ease' %}
+                A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.
+              {% when 'post-recovery' %}
+                A cooling muscle spray made to refresh tired, overworked muscles after workouts, sports, physical labor, or everyday activity.
+              {% when 'pure-mineral-mist' %}
+                Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin.
+              {% else %}
+                {% if card_product != blank and card_product.description != blank %}
+                  {{ card_product.description | strip_html | truncate: 145 }}
+                {% else %}
+                  {{ block.settings.description }}
+                {% endif %}
+            {% endcase %}
+          {% endcapture %}
+          {% if card_product.handle == 'post-recovery' %}
+            {% assign card_title = 'Post Recovery - Witch Hazel' %}
+          {% endif %}
           <article class="product-card" {{ block.shopify_attributes }}>
-            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}" aria-label="View {{ block.settings.title | escape }}">
+            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}" aria-label="View {{ card_title | escape }}">
               {% if card_product.featured_image %}
                 <img
                   src="{{ card_product.featured_image | image_url: width: 640 }}"
-                  alt="{{ card_product.featured_image.alt | default: card_product.title | escape }}"
+                  alt="{{ card_product.featured_image.alt | default: card_title | escape }}"
                   width="640"
                   height="640"
                   loading="lazy"
@@ -51,14 +54,8 @@
             </a>
             <div class="product-content">
               <p class="product-kicker">{{ block.settings.label | escape }}</p>
-              <h3>{{ card_product.title | default: block.settings.title | escape }}</h3>
-              <p>
-                {% if card_product != blank and card_product.description != blank %}
-                  {{ card_product.description | strip_html | truncate: 145 }}
-                {% else %}
-                  {{ block.settings.description | escape }}
-                {% endif %}
-              </p>
+              <h3>{{ card_title | escape }}</h3>
+              <p>{{ card_description | strip | escape }}</p>
               <div class="product-meta">
                 {% if card_product != blank %}
                   {% if card_product.price_varies %}
@@ -72,13 +69,244 @@
                 <span>{{ block.settings.size | escape }}</span>
               </div>
               <div class="product-actions">
-                <a class="button button-outline" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#products{% endif %}">View Product</a>
+                {% if card_product != blank %}
+                  {% form 'product', card_product, class: 'product-card-form' %}
+                    <input type="hidden" name="id" value="{{ card_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button
+                      class="button button-primary"
+                      type="submit"
+                      {% unless card_variant.available %}disabled{% endunless %}
+                    >
+                      {% if card_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+                    {% if card_variant.available %}
+                      {{ form | payment_button }}
+                    {% endif %}
+                  {% endform %}
+                  <a class="button button-outline" href="{{ card_product.url }}">View Product</a>
+                {% else %}
+                  <a class="button button-outline" href="#products">View Product</a>
+                {% endif %}
               </div>
             </div>
           </article>
         {% endif %}
       {% endfor %}
     </div>
+
+    {% assign bundle_product_1 = all_products['head-ease'] %}
+    {% assign bundle_product_2 = all_products['pure-mineral-mist'] %}
+    {% assign bundle_product_3 = all_products['post-recovery'] %}
+    {% assign bundle_product_4 = all_products['calm-uplift'] %}
+    {% assign bundle_variant_1 = bundle_product_1.selected_or_first_available_variant %}
+    {% assign bundle_variant_2 = bundle_product_2.selected_or_first_available_variant %}
+    {% assign bundle_variant_3 = bundle_product_3.selected_or_first_available_variant %}
+    {% assign bundle_variant_4 = bundle_product_4.selected_or_first_available_variant %}
+    {% assign bottle_bundle_ready = true %}
+    {% if bundle_product_1 == blank or bundle_product_2 == blank or bundle_product_3 == blank or bundle_product_4 == blank %}
+      {% assign bottle_bundle_ready = false %}
+    {% endif %}
+    {% unless bundle_variant_1.available and bundle_variant_2.available and bundle_variant_3.available and bundle_variant_4.available %}
+      {% assign bottle_bundle_ready = false %}
+    {% endunless %}
+
+    <article
+      class="roll-on-feature bottle-bundle-feature"
+      aria-labelledby="bottle-bundle-title"
+      data-bundle-form
+    >
+      <div class="roll-on-media">
+        <img
+          src="{{ 'product-lineup.jpg' | asset_url }}"
+          alt="Complete Mineral Mist full-size bottle collection"
+          width="1400"
+          height="940"
+          loading="lazy"
+        >
+      </div>
+      <div class="roll-on-copy">
+        <p class="eyebrow">Full-size bundle</p>
+        <h3 id="bottle-bundle-title">Complete Mineral Mist Bottle Set</h3>
+        <p>Get all four full-size Mineral Mist sprays together: Head Ease, Pure Mineral Mist, Post Recovery, and Calm &amp; Uplift.</p>
+        <div class="roll-on-meta">
+          <strong>All 4 products</strong>
+          <span>Full-size spray bottle collection</span>
+        </div>
+        <div class="bundle-product-inputs" aria-hidden="true">
+          {% if bundle_product_1 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_1.id }}">
+          {% endif %}
+          {% if bundle_product_2 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_2.id }}">
+          {% endif %}
+          {% if bundle_product_3 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_3.id }}">
+          {% endif %}
+          {% if bundle_product_4 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ bundle_variant_4.id }}">
+          {% endif %}
+        </div>
+        <button class="button button-primary" type="button" data-bundle-submit {% unless bottle_bundle_ready %}disabled{% endunless %}>
+          Add All 4 Bottles
+        </button>
+        <p class="bundle-offer-note" data-bundle-status>
+          {% if bottle_bundle_ready %}
+            Adds one of each full-size Mineral Mist spray to your cart.
+          {% else %}
+            Bundle products need to be available before this can be added to cart.
+          {% endif %}
+        </p>
+      </div>
+    </article>
+
+    <div class="section-heading centered roll-on-section-heading">
+      <p class="eyebrow">New smaller size</p>
+      <h2 id="roll-on-title">Mineral Mist Roll On Collection</h2>
+      <p>Same Mineral Mist formulas in smaller 1 oz glass roll-on bottles, sold individually for easy targeted use.</p>
+    </div>
+
+    <div class="product-grid roll-on-grid" aria-labelledby="roll-on-title">
+      {% for block in section.blocks %}
+        {% if block.type == 'roll_on_card' %}
+          {% assign card_product = block.settings.product %}
+          {% assign card_variant = card_product.selected_or_first_available_variant %}
+          {% assign card_title = card_product.title | default: block.settings.title %}
+          {% capture card_description %}
+            {% if card_product != blank and card_product.description != blank %}
+              {{ card_product.description | strip_html | truncate: 145 }}
+            {% else %}
+              {{ block.settings.description }}
+            {% endif %}
+          {% endcapture %}
+          <article class="product-card" {{ block.shopify_attributes }}>
+            <a class="product-image" href="{% if card_product != blank %}{{ card_product.url }}{% else %}#roll-on-title{% endif %}" aria-label="View {{ card_title | escape }}">
+              {% if card_product.featured_image %}
+                <img
+                  src="{{ card_product.featured_image | image_url: width: 640 }}"
+                  alt="{{ card_product.featured_image.alt | default: card_title | escape }}"
+                  width="640"
+                  height="640"
+                  loading="lazy"
+                >
+              {% else %}
+                <img
+                  src="{{ block.settings.fallback_image | asset_url }}"
+                  alt="{{ block.settings.alt | escape }}"
+                  width="640"
+                  height="640"
+                  loading="lazy"
+                >
+              {% endif %}
+            </a>
+            <div class="product-content">
+              <p class="product-kicker">{{ block.settings.label | escape }}</p>
+              <h3>{{ card_title | escape }}</h3>
+              <p>{{ card_description | strip | escape }}</p>
+              <div class="product-meta">
+                {% if card_product != blank %}
+                  {% if card_product.price_varies %}
+                    From {{ card_product.price_min | money }}
+                  {% else %}
+                    {{ card_product.price | money }}
+                  {% endif %}
+                {% else %}
+                  {{ block.settings.fallback_price | escape }}
+                {% endif %}
+                <span>{{ block.settings.size | escape }}</span>
+              </div>
+              <div class="product-actions">
+                {% if card_product != blank %}
+                  {% form 'product', card_product, class: 'product-card-form' %}
+                    <input type="hidden" name="id" value="{{ card_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button
+                      class="button button-primary"
+                      type="submit"
+                      {% unless card_variant.available %}disabled{% endunless %}
+                    >
+                      {% if card_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+                    {% if card_variant.available %}
+                      {{ form | payment_button }}
+                    {% endif %}
+                  {% endform %}
+                  <a class="button button-outline" href="{{ card_product.url }}">View Product</a>
+                {% else %}
+                  <a class="button button-outline" href="#roll-on-title">View Product</a>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% assign roll_on_bundle_product_1 = section.settings.roll_on_bundle_product_1 %}
+    {% assign roll_on_bundle_product_2 = section.settings.roll_on_bundle_product_2 %}
+    {% assign roll_on_bundle_product_3 = section.settings.roll_on_bundle_product_3 %}
+    {% assign roll_on_bundle_product_4 = section.settings.roll_on_bundle_product_4 %}
+    {% assign roll_on_bundle_variant_1 = roll_on_bundle_product_1.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_variant_2 = roll_on_bundle_product_2.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_variant_3 = roll_on_bundle_product_3.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_variant_4 = roll_on_bundle_product_4.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_ready = true %}
+    {% if roll_on_bundle_product_1 == blank or roll_on_bundle_product_2 == blank or roll_on_bundle_product_3 == blank or roll_on_bundle_product_4 == blank %}
+      {% assign roll_on_bundle_ready = false %}
+    {% endif %}
+    {% unless roll_on_bundle_variant_1.available and roll_on_bundle_variant_2.available and roll_on_bundle_variant_3.available and roll_on_bundle_variant_4.available %}
+      {% assign roll_on_bundle_ready = false %}
+    {% endunless %}
+
+    <article
+      class="roll-on-feature roll-on-bundle-feature"
+      aria-labelledby="roll-on-bundle-title"
+      data-bundle-form
+    >
+      <div class="roll-on-media">
+        <img
+          src="{{ 'roll-on-collection.png' | asset_url }}"
+          alt="Mineral Mist Roll On Collection glass bottles"
+          width="1536"
+          height="1024"
+          loading="lazy"
+        >
+      </div>
+      <div class="roll-on-copy">
+        <p class="eyebrow">Roll-on bundle</p>
+        <h3 id="roll-on-bundle-title">Complete Roll On Set</h3>
+        <p>Bundle all four 1 oz glass roll-ons together for targeted use at home, in a bag, or on the go.</p>
+        <div class="roll-on-meta">
+          <strong>All 4 roll-ons</strong>
+          <span>1 fl oz / 30 mL each</span>
+          <span>Individual roll-ons are $9.99 each</span>
+        </div>
+        <div class="bundle-product-inputs" aria-hidden="true">
+          {% if roll_on_bundle_product_1 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_1.id }}">
+          {% endif %}
+          {% if roll_on_bundle_product_2 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_2.id }}">
+          {% endif %}
+          {% if roll_on_bundle_product_3 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_3.id }}">
+          {% endif %}
+          {% if roll_on_bundle_product_4 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_4.id }}">
+          {% endif %}
+        </div>
+        <button class="button button-primary" type="button" data-bundle-submit {% unless roll_on_bundle_ready %}disabled{% endunless %}>
+          Add All 4 Roll-Ons
+        </button>
+        <p class="bundle-offer-note" data-bundle-status>
+          {% if roll_on_bundle_ready %}
+            Adds one of each selected Mineral Mist roll-on to your cart.
+          {% else %}
+            Complete roll-on set coming soon.
+          {% endif %}
+        </p>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -249,6 +477,11 @@
     { "type": "text", "id": "products_eyebrow", "label": "Products eyebrow", "default": "The complete collection" },
     { "type": "textarea", "id": "products_title", "label": "Products title HTML", "default": "Meet the <span>Mineral Mist</span> <span>Collection</span>" },
     { "type": "textarea", "id": "products_text", "label": "Products text", "default": "Four focused magnesium products designed to fit naturally into your daily routine." },
+    { "type": "header", "content": "Roll-on bundle" },
+    { "type": "product", "id": "roll_on_bundle_product_1", "label": "Roll-on bundle product 1" },
+    { "type": "product", "id": "roll_on_bundle_product_2", "label": "Roll-on bundle product 2" },
+    { "type": "product", "id": "roll_on_bundle_product_3", "label": "Roll-on bundle product 3" },
+    { "type": "product", "id": "roll_on_bundle_product_4", "label": "Roll-on bundle product 4" },
     { "type": "text", "id": "magnesium_image", "label": "Magnesium image asset filename", "default": "neutral-mist-lifestyle.jpg" },
     { "type": "text", "id": "magnesium_alt", "label": "Magnesium image alt text", "default": "Mineral Mist bottle beside a calm mineral water setting" },
     { "type": "text", "id": "magnesium_eyebrow", "label": "Magnesium eyebrow", "default": "Why magnesium" },
@@ -277,13 +510,27 @@
       "name": "Product card",
       "settings": [
         { "type": "product", "id": "product", "label": "Shopify product" },
-        { "type": "text", "id": "title", "label": "Fallback title", "default": "Pure Mineral Mist" },
+        { "type": "text", "id": "title", "label": "Display title", "default": "Mineral Mist Magnesium Spray" },
         { "type": "text", "id": "fallback_image", "label": "Fallback asset filename", "default": "pure-mineral-mist.jpg" },
         { "type": "text", "id": "alt", "label": "Fallback image alt text", "default": "Pure Mineral Mist spray bottle and box" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Everyday magnesium" },
-        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Pure Dead Sea magnesium blended with essential oil in a clean daily spray for simple refresh moments." },
+        { "type": "text", "id": "label", "label": "Label", "default": "Hydrate, soothe, refresh" },
+        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin." },
         { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "Price coming soon" },
         { "type": "text", "id": "size", "label": "Size text", "default": "Size details coming soon" }
+      ]
+    },
+    {
+      "type": "roll_on_card",
+      "name": "Roll-on product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Shopify roll-on product" },
+        { "type": "text", "id": "title", "label": "Display title", "default": "Mineral Mist Roll-On" },
+        { "type": "text", "id": "fallback_image", "label": "Fallback asset filename", "default": "roll-on-collection.png" },
+        { "type": "text", "id": "alt", "label": "Fallback image alt text", "default": "Mineral Mist glass roll-on bottle" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Glass roll-on" },
+        { "type": "textarea", "id": "description", "label": "Fallback description", "default": "Same Mineral Mist formula in a smaller 1 oz glass roll-on bottle for targeted use." },
+        { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "$9.99 each" },
+        { "type": "text", "id": "size", "label": "Size text", "default": "1 fl oz / 30 mL" }
       ]
     },
     {

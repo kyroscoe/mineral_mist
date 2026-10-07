@@ -1,3 +1,30 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "description": {{ product.description | strip_html | json }},
+    "image": [
+      {% for image in product.images %}
+        {{ image | image_url: width: 1200 | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ],
+    "sku": {{ product.selected_or_first_available_variant.sku | json }},
+    "brand": {
+      "@type": "Brand",
+      "name": {{ shop.name | json }}
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": {{ canonical_url | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "price": {{ product.selected_or_first_available_variant.price | divided_by: 100.0 | json }},
+      "availability": "https://schema.org/{% if product.selected_or_first_available_variant.available %}InStock{% else %}OutOfStock{% endif %}",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  }
+</script>
+
 <section class="section product-page-section">
   <div class="section-inner product-page-layout">
     <div class="product-page-media">
@@ -11,7 +38,7 @@
         >
       {% else %}
         <img
-          src="{{ 'pure-mineral-mist.jpg' | asset_url }}"
+          src="{{ section.settings.fallback_image | default: 'pure-mineral-mist.jpg' | asset_url }}"
           alt="{{ product.title | escape }}"
           width="900"
           height="900"
@@ -20,8 +47,156 @@
       {% endif %}
     </div>
     <div class="product-page-copy">
+      {% assign product_title = product.title %}
+      {% if product.handle == 'post-recovery' %}
+        {% assign product_title = 'Post Recovery - Witch Hazel' %}
+      {% endif %}
+      {% capture product_short_description %}
+        {% case product.handle %}
+          {% when 'calm-uplift' %}
+            <p>A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.</p>
+          {% when 'head-ease' %}
+            <p>A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.</p>
+          {% when 'post-recovery' %}
+            <p>A cooling muscle spray designed to refresh tired and overworked muscles after workouts, sports, physical labor, or everyday activity.</p>
+          {% when 'pure-mineral-mist' %}
+            <p>A refreshing blend of Dead Sea magnesium, vitamin E, and lavender essential oil created to hydrate, soothe, and refresh the skin and senses.</p>
+          {% else %}
+            {{ product.description }}
+        {% endcase %}
+      {% endcapture %}
+      {% capture product_full_details %}
+        {% case product.handle %}
+          {% when 'calm-uplift' %}
+            <p>A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.</p>
+            <p>Calm &amp; Uplift combines magnesium with mandarin orange, lavender, and chamomile to create a refreshing daily wellness spray. The calming botanical blend is designed for stressful days, meditation, bedtime routines, yoga, travel, or anytime you need a quiet moment to reset.</p>
+            <h3>Why You'll Love It</h3>
+            <ul class="product-feature-list">
+              <li>Promotes relaxation</li>
+              <li>Supports emotional wellness</li>
+              <li>Encourages balance</li>
+              <li>Fast-drying formula</li>
+              <li>Non-greasy</li>
+            </ul>
+            <h3>Key Ingredients</h3>
+            <ul class="product-ingredient-list">
+              <li><strong>Mandarin Orange:</strong> Helps promote an uplifting and positive mood.</li>
+              <li><strong>Lavender:</strong> Traditionally used to encourage relaxation and calm.</li>
+              <li><strong>Chamomile:</strong> Supports a sense of balance and emotional wellness.</li>
+              <li><strong>Magnesium:</strong> An essential mineral that supports relaxation and overall well-being.</li>
+            </ul>
+            <h3>Made For</h3>
+            <ul class="product-detail-grid">
+              <li>Daily wellness</li>
+              <li>Stressful days</li>
+              <li>Bedtime routines</li>
+              <li>Meditation</li>
+              <li>Yoga</li>
+              <li>Travel</li>
+            </ul>
+            <h3>Free From</h3>
+            <ul class="product-detail-grid">
+              <li>Parabens</li>
+              <li>Phthalates</li>
+              <li>Synthetic fragrances</li>
+              <li>Animal testing</li>
+            </ul>
+          {% when 'head-ease' %}
+            <p>A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.</p>
+            <p>Head Ease combines Dead Sea magnesium and peppermint in a clean, fast-drying spray that provides an immediate cooling sensation. Its lightweight, non-greasy formula is easy to use during long workdays, travel, stressful moments, or as part of your everyday wellness routine.</p>
+            <h3>Why You'll Love It</h3>
+            <ul class="product-feature-list">
+              <li>Cooling formula</li>
+              <li>Fast-drying</li>
+              <li>Non-greasy</li>
+              <li>Refreshing sensation</li>
+              <li>Easy for daily use</li>
+            </ul>
+            <h3>Key Ingredients</h3>
+            <ul class="product-ingredient-list">
+              <li><strong>Dead Sea Magnesium:</strong> Supports relaxation and overall wellness.</li>
+              <li><strong>Peppermint:</strong> Provides a cooling sensation that helps refresh and invigorate.</li>
+              <li><strong>Distilled Water:</strong> A pure, clean base for daily use.</li>
+            </ul>
+            <h3>Made For</h3>
+            <ul class="product-detail-grid">
+              <li>Headache discomfort</li>
+              <li>Tension</li>
+              <li>Stress</li>
+              <li>Long workdays</li>
+              <li>Travel</li>
+              <li>Everyday wellness</li>
+            </ul>
+            <h3>Free From</h3>
+            <ul class="product-detail-grid">
+              <li>Parabens</li>
+              <li>Phthalates</li>
+              <li>Synthetic fragrances</li>
+              <li>Animal testing</li>
+            </ul>
+          {% when 'post-recovery' %}
+            <p>A cooling muscle spray designed to refresh tired and overworked muscles after workouts, sports, physical labor, or everyday activity.</p>
+            <p>Post Recovery with Witch Hazel is a lightweight, fast-drying spray created for active lifestyles. Witch hazel helps soothe and tone the skin, menthol delivers an immediate cooling sensation, and aloe vera supports hydrated, healthy-looking skin. Use it after workouts, long days, or whenever your muscles need a refreshing reset.</p>
+            <h3>Why You'll Love It</h3>
+            <ul class="product-feature-list">
+              <li>Cooling formula</li>
+              <li>Fast-drying</li>
+              <li>Non-greasy</li>
+              <li>Refreshing post-activity relief</li>
+            </ul>
+            <h3>Key Ingredients</h3>
+            <ul class="product-ingredient-list">
+              <li><strong>Witch Hazel:</strong> Helps soothe and tone the skin while providing a refreshing post-workout experience.</li>
+              <li><strong>Menthol:</strong> Provides an immediate cooling sensation that helps refresh overworked muscles.</li>
+              <li><strong>Aloe Vera:</strong> Hydrates and supports healthy-looking skin.</li>
+            </ul>
+            <h3>Made For</h3>
+            <ul class="product-detail-grid">
+              <li>Athletes</li>
+              <li>Golfers</li>
+              <li>Runners</li>
+              <li>Fitness enthusiasts</li>
+              <li>Physical laborers</li>
+              <li>Everyday muscle fatigue</li>
+            </ul>
+            <h3>Free From</h3>
+            <ul class="product-detail-grid">
+              <li>Parabens</li>
+              <li>Sulfates</li>
+              <li>Synthetic fragrance</li>
+              <li>Animal testing</li>
+            </ul>
+          {% when 'pure-mineral-mist' %}
+            <p>A refreshing blend of Dead Sea magnesium, vitamin E, and lavender essential oil created to hydrate, soothe, and refresh the skin and senses.</p>
+            <p>Pure Mineral Mist is a naturally restorative daily spray made with mineral-rich Dead Sea magnesium, nourishing vitamin E, and calming lavender essential oil. The lightweight formula helps support skin hydration and balance while providing a clean, relaxing aromatic experience.</p>
+            <h3>Key Ingredients</h3>
+            <ul class="product-ingredient-list">
+              <li><strong>Dead Sea Magnesium:</strong> Naturally rich in minerals that help support skin balance and hydration.</li>
+              <li><strong>Vitamin E:</strong> A powerful antioxidant that helps protect and nourish the skin.</li>
+              <li><strong>Lavender Essential Oil:</strong> Known for its calming aroma and soothing properties.</li>
+            </ul>
+            <h3>Made With Care</h3>
+            <ul class="product-detail-grid">
+              <li>Clean ingredients</li>
+              <li>Natural oils</li>
+              <li>Cruelty-free</li>
+              <li>Vegan-friendly</li>
+            </ul>
+            <h3>Free From</h3>
+            <ul class="product-detail-grid">
+              <li>Parabens</li>
+              <li>Phthalates</li>
+              <li>Synthetic fragrances</li>
+              <li>Animal testing</li>
+            </ul>
+            <h3>Caution</h3>
+            <p class="product-caution">For external use only. Avoid contact with eyes. If irritation occurs, discontinue use. Keep out of reach of children. Store in a cool, dry place.</p>
+        {% endcase %}
+      {% endcapture %}
+      {% assign product_short_description = product_short_description | strip %}
+      {% assign product_full_details = product_full_details | strip %}
       <p class="eyebrow">Mineral Mist</p>
-      <h1>{{ product.title | escape }}</h1>
+      <h1>{{ product_title | escape }}</h1>
       <div class="product-page-price">
         {% if product.price_varies %}
           From {{ product.price_min | money }}
@@ -29,8 +204,10 @@
           {{ product.price | money }}
         {% endif %}
       </div>
-      {% if product.description != blank %}
-        <div class="product-description rte">{{ product.description }}</div>
+      {% if product_short_description != blank %}
+        <div class="product-description product-description-summary rte">{{ product_short_description }}</div>
+      {% elsif product.description != blank %}
+        <div class="product-description product-description-summary rte">{{ product.description }}</div>
       {% endif %}
 
       {% form 'product', product, class: 'product-form' %}
@@ -61,73 +238,104 @@
         >
           {% if product.selected_or_first_available_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
         </button>
+        {% if product.selected_or_first_available_variant.available %}
+          {{ form | payment_button }}
+        {% endif %}
       {% endform %}
 
-      {% assign bundle_product_1 = section.settings.bundle_product_1 %}
-      {% assign bundle_product_2 = section.settings.bundle_product_2 %}
-      {% assign bundle_product_3 = section.settings.bundle_product_3 %}
-      {% assign bundle_product_4 = section.settings.bundle_product_4 %}
-      {% assign bundle_variant_1 = bundle_product_1.selected_or_first_available_variant %}
-      {% assign bundle_variant_2 = bundle_product_2.selected_or_first_available_variant %}
-      {% assign bundle_variant_3 = bundle_product_3.selected_or_first_available_variant %}
-      {% assign bundle_variant_4 = bundle_product_4.selected_or_first_available_variant %}
-      {% assign bundle_ready = true %}
-      {% if bundle_product_1 == blank or bundle_product_2 == blank or bundle_product_3 == blank or bundle_product_4 == blank %}
-        {% assign bundle_ready = false %}
-      {% endif %}
-      {% unless bundle_variant_1.available and bundle_variant_2.available and bundle_variant_3.available and bundle_variant_4.available %}
-        {% assign bundle_ready = false %}
-      {% endunless %}
-
-      <div
-        class="bundle-offer"
-        data-bundle-form
-        {% if section.settings.bundle_discount_code != blank %}
-          data-discount-code="{{ section.settings.bundle_discount_code | escape }}"
-        {% endif %}
-      >
-        <p class="bundle-offer-kicker">{{ section.settings.bundle_eyebrow | escape }}</p>
-        <h2>{{ section.settings.bundle_title | escape }}</h2>
-        <p>{{ section.settings.bundle_text | escape }}</p>
-
-        <div class="bundle-products" aria-label="Bundle products">
-          {% if bundle_product_1 != blank %}
-            <span>{{ bundle_product_1.title | escape }}</span>
-            <input type="hidden" name="items[][id]" value="{{ bundle_variant_1.id }}">
-          {% endif %}
-          {% if bundle_product_2 != blank %}
-            <span>{{ bundle_product_2.title | escape }}</span>
-            <input type="hidden" name="items[][id]" value="{{ bundle_variant_2.id }}">
-          {% endif %}
-          {% if bundle_product_3 != blank %}
-            <span>{{ bundle_product_3.title | escape }}</span>
-            <input type="hidden" name="items[][id]" value="{{ bundle_variant_3.id }}">
-          {% endif %}
-          {% if bundle_product_4 != blank %}
-            <span>{{ bundle_product_4.title | escape }}</span>
-            <input type="hidden" name="items[][id]" value="{{ bundle_variant_4.id }}">
-          {% endif %}
-        </div>
-
-        <button class="button button-primary" type="button" data-bundle-submit {% unless bundle_ready %}disabled{% endunless %}>
-          {{ section.settings.bundle_button_label | escape }}
+      {% if product_full_details != blank %}
+        <button
+          class="button product-details-trigger"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="ProductDetailsModal-{{ section.id }}"
+          data-product-details-open
+        >
+          <span aria-hidden="true">+</span>
+          Read Full Product Details
         </button>
-        <p class="bundle-offer-note" data-bundle-status>
-          {% if bundle_ready %}
-            {{ section.settings.bundle_note | escape }}
-          {% else %}
-            Choose the four bundle products in this section's theme settings.
+      {% endif %}
+
+      {% if section.settings.show_bundle_offer %}
+        {% assign bundle_product_1 = section.settings.bundle_product_1 %}
+        {% assign bundle_product_2 = section.settings.bundle_product_2 %}
+        {% assign bundle_product_3 = section.settings.bundle_product_3 %}
+        {% assign bundle_product_4 = section.settings.bundle_product_4 %}
+        {% assign bundle_variant_1 = bundle_product_1.selected_or_first_available_variant %}
+        {% assign bundle_variant_2 = bundle_product_2.selected_or_first_available_variant %}
+        {% assign bundle_variant_3 = bundle_product_3.selected_or_first_available_variant %}
+        {% assign bundle_variant_4 = bundle_product_4.selected_or_first_available_variant %}
+        {% assign bundle_ready = true %}
+        {% if bundle_product_1 == blank or bundle_product_2 == blank or bundle_product_3 == blank or bundle_product_4 == blank %}
+          {% assign bundle_ready = false %}
+        {% endif %}
+        {% unless bundle_variant_1.available and bundle_variant_2.available and bundle_variant_3.available and bundle_variant_4.available %}
+          {% assign bundle_ready = false %}
+        {% endunless %}
+
+        <div
+          class="bundle-offer"
+          data-bundle-form
+          {% if section.settings.bundle_discount_code != blank %}
+            data-discount-code="{{ section.settings.bundle_discount_code | escape }}"
           {% endif %}
-        </p>
-      </div>
+        >
+          <p class="bundle-offer-kicker">{{ section.settings.bundle_eyebrow | escape }}</p>
+          <h2>{{ section.settings.bundle_title | escape }}</h2>
+          <p>{{ section.settings.bundle_text | escape }}</p>
+
+          <div class="bundle-products" aria-label="Bundle products">
+            {% if bundle_product_1 != blank %}
+              <span>{{ bundle_product_1.title | escape }}</span>
+              <input type="hidden" name="items[][id]" value="{{ bundle_variant_1.id }}">
+            {% endif %}
+            {% if bundle_product_2 != blank %}
+              <span>{{ bundle_product_2.title | escape }}</span>
+              <input type="hidden" name="items[][id]" value="{{ bundle_variant_2.id }}">
+            {% endif %}
+            {% if bundle_product_3 != blank %}
+              <span>{{ bundle_product_3.title | escape }}</span>
+              <input type="hidden" name="items[][id]" value="{{ bundle_variant_3.id }}">
+            {% endif %}
+            {% if bundle_product_4 != blank %}
+              <span>{{ bundle_product_4.title | escape }}</span>
+              <input type="hidden" name="items[][id]" value="{{ bundle_variant_4.id }}">
+            {% endif %}
+          </div>
+
+          <button class="button button-primary" type="button" data-bundle-submit {% unless bundle_ready %}disabled{% endunless %}>
+            {{ section.settings.bundle_button_label | escape }}
+          </button>
+          <p class="bundle-offer-note" data-bundle-status>
+            {% if bundle_ready %}
+              {{ section.settings.bundle_note | escape }}
+            {% else %}
+              Choose the four bundle products in this section's theme settings.
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
     </div>
   </div>
+
+  {% if product_full_details != blank %}
+    {% assign product_details_modal_id = 'ProductDetailsModal-' | append: section.id %}
+    {% assign product_details_title_id = 'ProductDetailsTitle-' | append: section.id %}
+    {% render 'product-details-modal',
+      modal_id: product_details_modal_id,
+      title_id: product_details_title_id,
+      title: product_title,
+      details: product_full_details
+    %}
+  {% endif %}
 </section>
 
 {% schema %}
 {
   "name": "Main product",
   "settings": [
+    { "type": "text", "id": "fallback_image", "label": "Fallback image asset filename", "default": "pure-mineral-mist.jpg" },
+    { "type": "checkbox", "id": "show_bundle_offer", "label": "Show complete collection bundle offer", "default": true },
     { "type": "header", "content": "Complete collection bundle" },
     { "type": "product", "id": "bundle_product_1", "label": "Bundle product 1" },
     { "type": "product", "id": "bundle_product_2", "label": "Bundle product 2" },

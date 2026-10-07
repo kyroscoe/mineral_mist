@@ -16,52 +16,104 @@
           "type": "product_card",
           "settings": {
             "product": "pure-mineral-mist",
-            "title": "Pure Mineral Mist",
+            "title": "Mineral Mist Magnesium Spray",
             "fallback_image": "pure-mineral-mist.jpg",
             "alt": "Pure Mineral Mist spray bottle and box",
-            "label": "Everyday magnesium",
-            "description": "Pure Dead Sea magnesium blended with essential oil in a clean daily spray for simple refresh moments.",
+            "label": "SLEEP AND RELAXTION",
+            "description": "Dead Sea magnesium, vitamin E, and lavender essential oil in a lightweight daily mist for hydrated, refreshed skin.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "product_2": {
           "type": "product_card",
           "settings": {
             "product": "head-ease",
-            "title": "Head Ease",
+            "title": "Head Ease Cooling Magnesium Spray",
             "fallback_image": "head-ease.jpg",
             "alt": "Head Ease Mineral Mist spray bottle and box",
-            "label": "Peppermint blend",
-            "description": "Dead Sea magnesium blended with 100% pure peppermint essential oil for a crisp sensory reset.",
+            "label": "Cooling tension support",
+            "description": "A cooling magnesium spray designed to soothe and refresh during moments of headache discomfort, tension, and stress.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "product_3": {
           "type": "product_card",
           "settings": {
             "product": "post-recovery",
-            "title": "Post Recovery",
+            "title": "Post Recovery - Witch Hazel",
             "fallback_image": "post-recovery.jpg",
             "alt": "Post Recovery Mineral Mist spray bottle and box",
-            "label": "After movement",
-            "description": "A mineral-forward spray with essential oils designed to fit into post-workout and end-of-day care routines.",
+            "label": "Post-activity refresh",
+            "description": "A cooling muscle spray made to refresh tired, overworked muscles after workouts, sports, physical labor, or everyday activity.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
           }
         },
         "product_4": {
           "type": "product_card",
           "settings": {
             "product": "calm-uplift",
-            "title": "Calm & Uplift",
+            "title": "Calm & Uplift Magnesium Spray",
             "fallback_image": "calm-uplift.jpg",
             "alt": "Calm and Uplift Mineral Mist spray bottle and box",
-            "label": "Rose water softness",
-            "description": "Dead Sea magnesium blended with essential oils in a soft floral mist for slower daily pauses.",
+            "label": "Relaxation and balance",
+            "description": "A fast-drying, non-greasy magnesium spray created to support relaxation, emotional wellness, and a more balanced mindset.",
             "fallback_price": "Price coming soon",
-            "size": "Size details coming soon"
+            "size": ""
+          }
+        },
+        "roll_on_1": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "pure-mineral-mist-1",
+            "title": "Magnesium Relaxation Roll-On",
+            "fallback_image": "roll-on-magnesium-relaxation.png",
+            "alt": "Magnesium Relaxation Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist relaxation formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
+        "roll_on_2": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "post-recovery-1",
+            "title": "Post Recovery Roll-On",
+            "fallback_image": "roll-on-post-recovery.png",
+            "alt": "Post Recovery Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist post-recovery formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
+        "roll_on_3": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "head-ease-roller-bottle",
+            "title": "Head Ease Roll-On",
+            "fallback_image": "roll-on-head-ease.png",
+            "alt": "Head Ease Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist Head Ease formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
+          }
+        },
+        "roll_on_4": {
+          "type": "roll_on_card",
+          "settings": {
+            "product": "calm-uplift-roller-bottle",
+            "title": "Calm & Uplift Roll-On",
+            "fallback_image": "roll-on-calm-uplift.png",
+            "alt": "Calm and Uplift Mineral Mist glass roll-on bottle",
+            "label": "Glass roll-on",
+            "description": "Same Mineral Mist Calm & Uplift formula in a smaller 1 oz glass roll-on bottle for targeted use.",
+            "fallback_price": "$9.99 each",
+            "size": "1 fl oz / 30 mL"
           }
         },
         "point_1": {
@@ -180,7 +232,7 @@
           "type": "faq",
           "settings": {
             "question": "How do I use Mineral Mist?",
-            "answer": "Use each product according to the directions on its label. Product-specific instructions should be confirmed before launch."
+            "answer": "Use Mineral Mist as part of the daily wellness routine suggested for each product, and follow the directions on the product packaging."
           }
         },
         "faq_4": {
@@ -194,7 +246,7 @@
           "type": "faq",
           "settings": {
             "question": "Where can I find ingredient and safety information?",
-            "answer": "Ingredient and safety details should be reviewed on the product packaging or any client-approved product detail page once available."
+            "answer": "Ingredient details are listed on each product page. For external use only. Avoid contact with eyes and discontinue use if irritation occurs."
           }
         }
       },
@@ -203,6 +255,10 @@
         "product_2",
         "product_3",
         "product_4",
+        "roll_on_1",
+        "roll_on_2",
+        "roll_on_3",
+        "roll_on_4",
         "point_1",
         "point_2",
         "point_3",
@@ -226,14 +282,18 @@
       "settings": {
         "hero_image": "product-lineup.jpg",
         "hero_alt": "Four Mineral Mist spray bottles arranged together",
-        "hero_eyebrow": "Pure. Simple. Mineral.",
-        "hero_title": "<span><span class=\"hero-number\">100%</span> Pure</span> <span>Magnesium</span> <span>from the Dead Sea</span>",
-        "hero_text": "Discover pure Dead Sea magnesium blended with essential oils for a simple daily wellness ritual.",
-        "hero_primary_label": "Shop Mineral Mist",
-        "hero_secondary_label": "Why Dead Sea Magnesium?",
+        "hero_eyebrow": "",
+        "hero_title": "",
+        "hero_text": "",
+        "hero_primary_label": "",
+        "hero_secondary_label": "",
         "products_eyebrow": "The complete collection",
         "products_title": "Meet the <span>Mineral Mist</span> <span>Collection</span>",
         "products_text": "Four focused magnesium products designed to fit naturally into your daily routine.",
+        "roll_on_bundle_product_1": "",
+        "roll_on_bundle_product_2": "",
+        "roll_on_bundle_product_3": "",
+        "roll_on_bundle_product_4": "",
         "magnesium_image": "neutral-mist-lifestyle.jpg",
         "magnesium_alt": "Mineral Mist bottle beside a calm mineral water setting",
         "magnesium_eyebrow": "Why magnesium",
