@@ -69,7 +69,7 @@
           "settings": {
             "product": "",
             "title": "Magnesium Relaxation Roll-On",
-            "fallback_image": "roll-on-collection.png",
+            "fallback_image": "roll-on-magnesium-relaxation.png",
             "alt": "Magnesium Relaxation Mineral Mist glass roll-on bottle",
             "label": "Glass roll-on",
             "description": "Same Mineral Mist relaxation formula in a smaller 1 oz glass roll-on bottle for targeted use.",
@@ -82,7 +82,7 @@
           "settings": {
             "product": "",
             "title": "Post Recovery Roll-On",
-            "fallback_image": "roll-on-collection.png",
+            "fallback_image": "roll-on-post-recovery.png",
             "alt": "Post Recovery Mineral Mist glass roll-on bottle",
             "label": "Glass roll-on",
             "description": "Same Mineral Mist post-recovery formula in a smaller 1 oz glass roll-on bottle for targeted use.",
@@ -95,7 +95,7 @@
           "settings": {
             "product": "",
             "title": "Head Ease Roll-On",
-            "fallback_image": "roll-on-collection.png",
+            "fallback_image": "roll-on-head-ease.png",
             "alt": "Head Ease Mineral Mist glass roll-on bottle",
             "label": "Glass roll-on",
             "description": "Same Mineral Mist Head Ease formula in a smaller 1 oz glass roll-on bottle for targeted use.",
@@ -108,7 +108,7 @@
           "settings": {
             "product": "",
             "title": "Calm & Uplift Roll-On",
-            "fallback_image": "roll-on-collection.png",
+            "fallback_image": "roll-on-calm-uplift.png",
             "alt": "Calm and Uplift Mineral Mist glass roll-on bottle",
             "label": "Glass roll-on",
             "description": "Same Mineral Mist Calm & Uplift formula in a smaller 1 oz glass roll-on bottle for targeted use.",
