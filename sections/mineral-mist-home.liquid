@@ -242,12 +242,26 @@
       {% endfor %}
     </div>
 
-    {% assign roll_on_bundle_product = section.settings.roll_on_bundle_product %}
-    {% assign roll_on_bundle_variant = roll_on_bundle_product.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_product_1 = section.settings.roll_on_bundle_product_1 %}
+    {% assign roll_on_bundle_product_2 = section.settings.roll_on_bundle_product_2 %}
+    {% assign roll_on_bundle_product_3 = section.settings.roll_on_bundle_product_3 %}
+    {% assign roll_on_bundle_product_4 = section.settings.roll_on_bundle_product_4 %}
+    {% assign roll_on_bundle_variant_1 = roll_on_bundle_product_1.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_variant_2 = roll_on_bundle_product_2.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_variant_3 = roll_on_bundle_product_3.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_variant_4 = roll_on_bundle_product_4.selected_or_first_available_variant %}
+    {% assign roll_on_bundle_ready = true %}
+    {% if roll_on_bundle_product_1 == blank or roll_on_bundle_product_2 == blank or roll_on_bundle_product_3 == blank or roll_on_bundle_product_4 == blank %}
+      {% assign roll_on_bundle_ready = false %}
+    {% endif %}
+    {% unless roll_on_bundle_variant_1.available and roll_on_bundle_variant_2.available and roll_on_bundle_variant_3.available and roll_on_bundle_variant_4.available %}
+      {% assign roll_on_bundle_ready = false %}
+    {% endunless %}
 
     <article
       class="roll-on-feature roll-on-bundle-feature"
       aria-labelledby="roll-on-bundle-title"
+      data-bundle-form
     >
       <div class="roll-on-media">
         <img
@@ -267,36 +281,28 @@
           <span>1 fl oz / 30 mL each</span>
           <span>Individual roll-ons are $9.99 each</span>
         </div>
-        <div class="product-actions">
-          {% if roll_on_bundle_product != blank %}
-            {% form 'product', roll_on_bundle_product, class: 'product-card-form' %}
-              <input type="hidden" name="id" value="{{ roll_on_bundle_variant.id }}">
-              <input type="hidden" name="quantity" value="1">
-              <button
-                class="button button-primary"
-                type="submit"
-                {% unless roll_on_bundle_variant.available %}disabled{% endunless %}
-              >
-                {% if roll_on_bundle_variant.available %}Add Roll-On Bundle{% else %}Sold Out{% endif %}
-              </button>
-              {% if roll_on_bundle_variant.available %}
-                {{ form | payment_button }}
-              {% endif %}
-            {% endform %}
-            <a class="button button-outline" href="{{ roll_on_bundle_product.url }}">View Bundle</a>
-          {% else %}
-            <a class="button button-outline" href="#roll-on-title">Assign Bundle Product</a>
+        <div class="bundle-product-inputs" aria-hidden="true">
+          {% if roll_on_bundle_product_1 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_1.id }}">
+          {% endif %}
+          {% if roll_on_bundle_product_2 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_2.id }}">
+          {% endif %}
+          {% if roll_on_bundle_product_3 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_3.id }}">
+          {% endif %}
+          {% if roll_on_bundle_product_4 != blank %}
+            <input type="hidden" name="items[][id]" value="{{ roll_on_bundle_variant_4.id }}">
           {% endif %}
         </div>
-        <p class="bundle-offer-note">
-          {% if roll_on_bundle_product != blank %}
-            {% if roll_on_bundle_variant.available %}
-              Adds the Shopify roll-on bundle product to your cart.
-            {% else %}
-              This roll-on bundle product is currently sold out.
-            {% endif %}
+        <button class="button button-primary" type="button" data-bundle-submit {% unless roll_on_bundle_ready %}disabled{% endunless %}>
+          Add All 4 Roll-Ons
+        </button>
+        <p class="bundle-offer-note" data-bundle-status>
+          {% if roll_on_bundle_ready %}
+            Adds one of each selected Mineral Mist roll-on to your cart.
           {% else %}
-            Assign the Shopify roll-on bundle product in this section's settings.
+            Assign the four roll-on bundle products in this section's settings.
           {% endif %}
         </p>
       </div>
@@ -471,7 +477,11 @@
     { "type": "text", "id": "products_eyebrow", "label": "Products eyebrow", "default": "The complete collection" },
     { "type": "textarea", "id": "products_title", "label": "Products title HTML", "default": "Meet the <span>Mineral Mist</span> <span>Collection</span>" },
     { "type": "textarea", "id": "products_text", "label": "Products text", "default": "Four focused magnesium products designed to fit naturally into your daily routine." },
-    { "type": "product", "id": "roll_on_bundle_product", "label": "Roll-on bundle product" },
+    { "type": "header", "content": "Roll-on bundle" },
+    { "type": "product", "id": "roll_on_bundle_product_1", "label": "Roll-on bundle product 1" },
+    { "type": "product", "id": "roll_on_bundle_product_2", "label": "Roll-on bundle product 2" },
+    { "type": "product", "id": "roll_on_bundle_product_3", "label": "Roll-on bundle product 3" },
+    { "type": "product", "id": "roll_on_bundle_product_4", "label": "Roll-on bundle product 4" },
     { "type": "text", "id": "magnesium_image", "label": "Magnesium image asset filename", "default": "neutral-mist-lifestyle.jpg" },
     { "type": "text", "id": "magnesium_alt", "label": "Magnesium image alt text", "default": "Mineral Mist bottle beside a calm mineral water setting" },
     { "type": "text", "id": "magnesium_eyebrow", "label": "Magnesium eyebrow", "default": "Why magnesium" },
